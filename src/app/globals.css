@@ -1,23 +1,27 @@
 /* src/app/globals.css */
 @import "tailwindcss";
 
-@layer base {
-  body {
-    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
-  }
+/* Dark mode configuration untuk Tailwind v4 */
+@variant dark (&:is(.dark *));
 
-  html {
-    scroll-behavior: smooth;
-  }
+/* Base styles */
+html {
+  scroll-behavior: smooth;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Force body colors */
+body {
+  background-color: rgb(249 250 251);
+  color: rgb(17 24 39);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+:root.dark body,
+html.dark body {
+  background-color: rgb(17 24 39);
+  color: rgb(249 250 251);
 }
 
 /* Custom scrollbar */
@@ -26,15 +30,32 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  background: rgb(229 231 235);
+}
+
+:root.dark ::-webkit-scrollbar-track,
+html.dark ::-webkit-scrollbar-track {
+  background: rgb(31 41 55);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  background: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+:root.dark ::-webkit-scrollbar-thumb,
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  background: rgb(156 163 175);
+}
+
+:root.dark ::-webkit-scrollbar-thumb:hover,
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
 }
 
 /* Animations */
@@ -51,9 +72,4 @@
 
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out;
-}
-
-/* Gradient text */
-.gradient-text {
-  @apply bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent;
 }

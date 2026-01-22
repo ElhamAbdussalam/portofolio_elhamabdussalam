@@ -1,8 +1,6 @@
 .text-block {
-  margin: 7vw;
-  max-width: 800px;
   font-family: monospace;
-  font-size: clamp(14px, 4vw, 32px);
+  font-size: clamp(13px, 2vw, 22px);
   color: #fff;
 }
 

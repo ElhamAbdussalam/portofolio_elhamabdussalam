@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import GradientText from "./ui/GradientText";
+import ScrambledText from "./ui/ScrambledText";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -67,14 +68,22 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300">
             Full Stack Developer
           </p>
-
-          {/* Description */}
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Full Stack Developer specializing in scalable and performance-driven
-            web applications. Proficient in React, Next.js, TypeScript, Node.js,
-            and Laravel, with a strong commitment to clean architecture,
-            user-centered design, and continuous improvement.
-          </p>
+          {/* Description / Scrambled Text */}
+          <div className="">
+            <ScrambledText
+              className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed"
+              radius={100}
+              duration={1.2}
+              speed={0.5}
+              scrambleChars=".:"
+            >
+              Full Stack Developer specializing in scalable and
+              performance-driven web applications. Proficient in React, Next.js,
+              TypeScript, Node.js, and Laravel, with a strong commitment to
+              clean architecture, user-centered design, and continuous
+              improvement.
+            </ScrambledText>
+          </div>
 
           {/* Location */}
           <div className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400">

@@ -4,6 +4,10 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Home from "@/components/Home";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Projects from "@/components/Projects";
+import Contact from "@/components/Contact";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
@@ -44,9 +48,25 @@ export default function Portfolio() {
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar activeSection={activeSection} onNavigate={scrollToSection} />
 
-      <main className="flex-1 overflow-y-auto">
-        <section id="home">
+      <main className="flex-1">
+        <section id="home" className="min-h-screen">
           <Home />
+        </section>
+
+        <section id="about" className="min-h-screen">
+          <About />
+        </section>
+
+        <section id="skills" className="min-h-screen">
+          <Skills />
+        </section>
+
+        <section id="projects" className="min-h-screen">
+          <Projects />
+        </section>
+
+        <section id="contact" className="min-h-screen">
+          <Contact />
         </section>
       </main>
     </div>

@@ -65,7 +65,7 @@ export default function Home() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300">
+          <p className="text-xl italic md:text-2xl text-gray-600 dark:text-gray-300">
             Full Stack Developer
           </p>
           {/* Description / Scrambled Text */}

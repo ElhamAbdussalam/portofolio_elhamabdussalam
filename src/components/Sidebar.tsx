@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
-import ThemeToggle from "./ThemeToggle";
+import TextType from "./ui/TextType";
 
 interface SidebarProps {
   activeSection: string;
@@ -38,25 +38,21 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
       icon: Github,
       href: "https://github.com/ElhamAbdussalam",
       label: "GitHub",
-      external: true,
     },
     {
       icon: Linkedin,
       href: "https://www.linkedin.com/in/m-elham-abdussalam/",
       label: "LinkedIn",
-      external: true,
     },
     {
       icon: Instagram,
       href: "https://www.instagram.com/muh.elham_/",
       label: "Instagram",
-      external: true,
     },
     {
       icon: Mail,
       href: "https://mail.google.com/mail/?view=cm&fs=1&to=abdussalamelham@gmail.com",
       label: "Email",
-      external: true,
     },
   ];
 
@@ -100,7 +96,7 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
         {/* Profile */}
         <div className="text-center">
           {/* Avatar */}
-          <div className="relative w-32 h-32 mx-auto mb-4 group animate-float">
+          <div className="relative w-36 h-36 mx-auto mb-4 group animate-float">
             {/* Glow Ring */}
             <div
               className="absolute inset-0 rounded-full
@@ -135,12 +131,19 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
             />
           </div>
 
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          {/* <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             M Elham Abdussalam
-          </h2>
-          <p className="text-sm italic text-gray-600 dark:text-gray-400 mb-6">
-            Full Stack Developer
-          </p>
+          </h2> */}
+          <div className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <TextType
+              text={["M Elham Abdussalam"]}
+              typingSpeed={150}
+              variableSpeed={0}
+              onSentenceComplete={() => {}}
+              showCursor
+              cursorCharacter="_"
+            />
+          </div>
 
           <div className="flex justify-center items-center gap-3 mb-4">
             <span className="relative inline-flex">
@@ -162,20 +165,6 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
                 ● Available
               </span>
             </span>
-
-            <div
-              className="
-    group w-10 h-10 flex items-center justify-center rounded-xl
-    bg-gray-200 dark:bg-gray-700
-    transition-all duration-300 ease-out
-    hover:scale-110 hover:rotate-6
-    hover:bg-gradient-to-br hover:from-yellow-400 hover:to-orange-500
-    hover:shadow-lg hover:shadow-yellow-500/40
-    cursor-pointer
-  "
-            >
-              <ThemeToggle />
-            </div>
           </div>
 
           {/* Social */}

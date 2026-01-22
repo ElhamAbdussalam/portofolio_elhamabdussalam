@@ -1,47 +1,9 @@
-// src/components/Home.tsx
 "use client";
 
-import {
-  Github,
-  Linkedin,
-  Mail,
-  MapPin,
-  Download,
-  Instagram,
-  Code2,
-  Boxes,
-  FileCode,
-  Server,
-  Terminal,
-  Layout,
-  Database,
-  Package,
-  GitBranch,
-  Layers,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import GradientText from "./ui/GradientText";
+import { Mail, MapPin, Download } from "lucide-react";
 import ScrambledText from "./ui/ScrambledText";
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const skills = [
-    { icon: Code2, name: "React", color: "text-blue-400" },
-    { icon: Boxes, name: "Next.js", color: "text-gray-900 dark:text-white" },
-    { icon: FileCode, name: "TypeScript", color: "text-blue-600" },
-    { icon: Server, name: "Node.js", color: "text-green-600" },
-    { icon: Terminal, name: "Laravel", color: "text-red-500" },
-    { icon: Layout, name: "Tailwind", color: "text-cyan-500" },
-    { icon: Database, name: "MongoDB", color: "text-green-500" },
-    { icon: Database, name: "PostgreSQL", color: "text-blue-700" },
-    { icon: Package, name: "Docker", color: "text-blue-500" },
-    { icon: GitBranch, name: "Git", color: "text-orange-600" },
-  ];
   return (
     <section className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-4xl w-full">
@@ -70,9 +32,10 @@ export default function Home() {
           </h2>
 
           {/* Subtitle */}
-          <p className="text-xl italic md:text-2xl text-gray-600 dark:text-gray-300">
-            Full Stack Developer
+          <p className="text-xl italic md:text-2xl text-gray-600 dark:text-gray-300 animate-pulse">
+            Full Stack Developer ● Front End Developer ● Back End Developer
           </p>
+
           {/* Description / Scrambled Text */}
           <div className="">
             <ScrambledText

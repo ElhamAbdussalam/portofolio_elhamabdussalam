@@ -1,4 +1,3 @@
-// src/app/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -17,31 +16,26 @@ export default function Portfolio() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            const id = entry.target.id;
-            setActiveSection(id);
-          }
-        });
+        const visibleSection = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleSection) {
+          setActiveSection(visibleSection.target.id);
+        }
       },
       {
-        threshold: 0.5,
-        rootMargin: "-100px 0px -100px 0px",
+        threshold: [0.25, 0.5, 0.75],
       },
     );
 
     sections.forEach((section) => observer.observe(section));
 
-    return () => sections.forEach((section) => observer.unobserve(section));
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId); // Set active immediately
-
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

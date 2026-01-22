@@ -13,17 +13,21 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const sections = document.querySelectorAll("section");
+    const sections = document.querySelectorAll("section[id]");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
             const id = entry.target.id;
-            if (id) setActiveSection(id);
+            setActiveSection(id);
           }
         });
       },
-      { threshold: 0.5 },
+      {
+        threshold: 0.5,
+        rootMargin: "-100px 0px -100px 0px",
+      },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -32,9 +36,11 @@ export default function Portfolio() {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId); // Set active immediately
+
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -43,21 +49,21 @@ export default function Portfolio() {
       <Sidebar activeSection={activeSection} onNavigate={scrollToSection} />
 
       <main className="flex-1 overflow-y-auto">
-        <div id="home">
+        <section id="home">
           <Home />
-        </div>
-        <div id="about">
+        </section>
+        <section id="about">
           <About />
-        </div>
-        <div id="skills">
+        </section>
+        <section id="skills">
           <Skills />
-        </div>
-        <div id="projects">
+        </section>
+        <section id="projects">
           <Projects />
-        </div>
-        <div id="contact">
+        </section>
+        <section id="contact">
           <Contact />
-        </div>
+        </section>
       </main>
     </div>
   );

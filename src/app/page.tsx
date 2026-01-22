@@ -7,6 +7,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import Lightning from "@/components/ui/Lightning";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
@@ -24,13 +25,10 @@ export default function Portfolio() {
           setActiveSection(visibleSection.target.id);
         }
       },
-      {
-        threshold: [0.25, 0.5, 0.75],
-      },
+      { threshold: [0.25, 0.5, 0.75] },
     );
 
     sections.forEach((section) => observer.observe(section));
-
     return () => observer.disconnect();
   }, []);
 
@@ -39,30 +37,38 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar activeSection={activeSection} onNavigate={scrollToSection} />
+    <div className="relative min-h-screen ">
+      {/* BACKGROUND */}
+      <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+        <Lightning hue={260} xOffset={0} speed={1} intensity={1} size={1} />
+      </div>
 
-      <main className="flex-1">
-        <section id="home" className="min-h-screen">
-          <Home />
-        </section>
+      {/* CONTENT */}
+      <div className="flex min-h-screen bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm">
+        <Sidebar activeSection={activeSection} onNavigate={scrollToSection} />
 
-        <section id="about" className="min-h-screen">
-          <About />
-        </section>
+        <main className="flex-1">
+          <section id="home" className="min-h-screen">
+            <Home />
+          </section>
 
-        <section id="skills" className="min-h-screen">
-          <Skills />
-        </section>
+          <section id="about" className="min-h-screen">
+            <About />
+          </section>
 
-        <section id="projects" className="min-h-screen">
-          <Projects />
-        </section>
+          <section id="skills" className="min-h-screen">
+            <Skills />
+          </section>
 
-        <section id="contact" className="min-h-screen">
-          <Contact />
-        </section>
-      </main>
+          <section id="projects" className="min-h-screen">
+            <Projects />
+          </section>
+
+          <section id="contact" className="min-h-screen">
+            <Contact />
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

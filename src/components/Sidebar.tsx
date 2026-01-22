@@ -91,25 +91,12 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 
       {/* Sidebar */}
       <aside
-        className={`relative fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
-  bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
-  border-r border-gray-200 dark:border-gray-700
-  transform transition-all duration-300
-  ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-  overflow-hidden
-  `}
+        className={`fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
+        bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
+        border-r border-gray-200 dark:border-gray-700
+        transform transition-all duration-300
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        {/* Background Texture */}
-        <div
-          className="
-      pointer-events-none absolute inset-0
-      bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.04)_1px,transparent_0)]
-      [background-size:18px_18px]
-      dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.04)_1px,transparent_0)]
-      opacity-60
-    "
-        />
-
         {/* Profile */}
         <div className="text-center">
           {/* Avatar */}

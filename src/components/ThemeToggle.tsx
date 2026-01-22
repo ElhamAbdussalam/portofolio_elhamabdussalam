@@ -15,35 +15,20 @@ export default function ThemeToggle() {
   }
 
   const handleToggle = () => {
-    console.log("=== TOGGLE START ===");
-    console.log("Current theme:", theme);
-    console.log(
-      "Current HTML classes BEFORE:",
-      document.documentElement.className,
-    );
-
     const newTheme = theme === "dark" ? "light" : "dark";
-    console.log("New theme will be:", newTheme);
 
     // Apply class immediately BEFORE state update
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
-      console.log("Added dark class");
     } else {
       document.documentElement.classList.remove("dark");
-      console.log("Removed dark class");
     }
-
-    console.log("HTML classes AFTER:", document.documentElement.className);
 
     // Save to localStorage
     localStorage.setItem("theme", newTheme);
-    console.log("Saved to localStorage:", newTheme);
 
     // Then update state
     toggleTheme();
-    console.log("State updated");
-    console.log("=== TOGGLE END ===");
   };
 
   return (

@@ -62,20 +62,20 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile Menu Button */}
+      {/* Mobile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 hover:scale-110"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg"
       >
         <div className="relative w-6 h-6">
           <Menu
-            className={`absolute w-6 h-6 transition-all duration-300 ${
-              isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
+            className={`absolute w-6 h-6 transition ${
+              isOpen ? "opacity-0 rotate-90" : "opacity-100"
             }`}
           />
           <X
-            className={`absolute w-6 h-6 transition-all duration-300 ${
-              isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
+            className={`absolute w-6 h-6 transition ${
+              isOpen ? "opacity-100" : "opacity-0 -rotate-90"
             }`}
           />
         </div>
@@ -84,77 +84,154 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
       {/* Overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 bg-black/60 z-40 transition ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
-        bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
-        border-r border-gray-200 dark:border-gray-700 shadow-2xl lg:shadow-none
-        transform transition-all duration-500 ease-out
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        className={`relative fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
+  bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
+  border-r border-gray-200 dark:border-gray-700
+  transform transition-all duration-300
+  ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+  overflow-hidden
+  `}
       >
-        {/* Profile Section */}
-        <div className="text-center mb-6 animate-fadeIn">
+        {/* Background Texture */}
+        <div
+          className="
+      pointer-events-none absolute inset-0
+      bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.04)_1px,transparent_0)]
+      [background-size:18px_18px]
+      dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.04)_1px,transparent_0)]
+      opacity-60
+    "
+        />
+
+        {/* Profile */}
+        <div className="text-center">
           {/* Avatar */}
-          <div className="relative w-32 h-32 mx-auto mb-4 group">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-sm opacity-60 animate-spin-slow group-hover:opacity-90 transition-opacity" />
-            <div className="relative w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
-              <div className="w-full h-full rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 transition-transform duration-300 group-hover:scale-105">
+          <div className="relative w-32 h-32 mx-auto mb-4 group animate-float">
+            {/* Glow Ring */}
+            <div
+              className="absolute inset-0 rounded-full
+    bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500
+    blur-md opacity-60 animate-slow-spin group-hover:opacity-90 transition"
+            />
+
+            {/* Avatar Wrapper */}
+            <div
+              className="relative w-full h-full rounded-full p-[6px]
+    bg-gradient-to-br from-blue-500 to-purple-600
+    transition-transform duration-500
+    group-hover:scale-105 group-hover:rotate-1"
+            >
+              <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                 <Image
                   src="/profile.png"
                   alt="Avatar"
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
+                  width={112}
+                  height={112}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   priority
                 />
               </div>
             </div>
 
-            {/* Status dot */}
-            <div className="absolute bottom-1.5 right-1.5 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800 animate-pulse" />
+            {/* Status Dot */}
+            <div
+              className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5
+    bg-green-500 rounded-full border-2 border-white dark:border-gray-800
+    animate-pulse"
+            />
           </div>
 
-          {/* Name */}
-          <h2 className="text-xl font-bold mb-0.5 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-            Muhammad Elham
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            M Elham Abdussalam
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          <p className="text-sm italic text-gray-600 dark:text-gray-400 mb-6">
             Full Stack Developer
           </p>
 
-          {/* Status + Theme */}
-          <div className="flex justify-center items-center gap-3 mb-3">
-            <span className="px-3 py-1.5 text-[11px] font-semibold rounded-full text-white bg-gradient-to-r from-green-600 to-emerald-500 shadow-md shadow-green-500/40">
-              • Available for Work
+          <div className="flex justify-center items-center gap-3 mb-4">
+            <span className="relative inline-flex">
+              <span
+                className="
+      absolute inset-0 rounded-full
+      bg-gradient-to-r from-green-500 to-emerald-500
+      blur-md opacity-60
+      animate-pulse
+    "
+              />
+              <span
+                className="
+      relative px-4 py-2.5 text-xs font-semibold rounded-full text-white
+      bg-gradient-to-r from-green-600 to-emerald-600
+      shadow-md shadow-green-500/40
+    "
+              >
+                ● Available
+              </span>
             </span>
-            <ThemeToggle />
+
+            <div
+              className="
+    group w-10 h-10 flex items-center justify-center rounded-xl
+    bg-gray-200 dark:bg-gray-700
+    transition-all duration-300 ease-out
+    hover:scale-110 hover:rotate-6
+    hover:bg-gradient-to-br hover:from-yellow-400 hover:to-orange-500
+    hover:shadow-lg hover:shadow-yellow-500/40
+    cursor-pointer
+  "
+            >
+              <ThemeToggle />
+            </div>
           </div>
 
-          {/* Social Links */}
-          <div className="flex justify-center gap-3 min-h-[48px]">
+          {/* Social */}
+          <div className="flex justify-center gap-2">
             {socialLinks.map((social, index) => {
               const Icon = social.icon;
+
               return (
                 <div
                   key={social.label}
-                  className="flex flex-col items-center group"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="relative flex flex-col items-center group"
+                  style={{ animationDelay: `${index * 80}ms` }}
                 >
+                  {/* Icon Button */}
                   <a
                     href={social.href}
-                    {...(social.external
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gradient-to-br hover:from-blue-500 hover:to-purple-600 text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+            w-10 h-10 flex items-center justify-center rounded-xl
+            bg-gray-200 dark:bg-gray-700
+            text-gray-700 dark:text-gray-300
+            transition-all duration-300 ease-out
+            group-hover:scale-110 group-hover:-rotate-6
+            hover:bg-gradient-to-br hover:from-blue-500 hover:to-purple-600
+            hover:text-white
+            shadow-sm hover:shadow-lg
+          "
                   >
-                    <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    <Icon className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" />
                   </a>
-                  <span className="mt-1 text-[10px] font-medium text-gray-500 dark:text-gray-400 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+
+                  {/* Label (muncul saat hover) */}
+                  <span
+                    className="
+            mt-1 text-[11px] font-medium
+            text-gray-600 dark:text-gray-400
+            opacity-0 translate-y-1
+            group-hover:opacity-100 group-hover:translate-y-0
+            transition-all duration-200
+            pointer-events-none
+          "
+                  >
                     {social.label}
                   </span>
                 </div>
@@ -163,12 +240,9 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="my-5 h-px bg-gradient-to-r from-transparent via-gray-300/70 dark:via-gray-600/70 to-transparent" />
-
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto">
-          <ul className="space-y-3 px-1">
+        <nav className="flex-1 mt-3">
+          <ul className="space-y-2">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = activeSection === item.id;
@@ -184,33 +258,41 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
                       onNavigate(item.id);
                       setIsOpen(false);
                     }}
-                    className={`relative w-full flex items-center gap-4 px-5 py-3 rounded-xl font-medium transition-all duration-300 overflow-hidden
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-[1.01]"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:translate-x-1"
-                    }`}
+                    className={`
+              group relative w-full flex items-center gap-4 px-5 h-12 rounded-xl
+              text-sm font-medium transition-all duration-300 ease-out
+              ${
+                isActive
+                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-[1.02]"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:translate-x-1"
+              }
+            `}
                   >
+                    {/* Hover background layer */}
                     {!isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-300" />
+                      <span
+                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0
+                group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10
+                transition-all duration-300"
+                      />
                     )}
 
-                    <div
-                      className={`relative z-10 transition-transform duration-300 ${
-                        isActive
-                          ? "animate-bounce-slow"
-                          : "group-hover:rotate-6"
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
+                    {/* Icon */}
+                    <Icon
+                      className={`
+                relative z-10 w-5 h-5 shrink-0 transition-transform duration-300
+                ${isActive ? "animate-bounce-slow" : "group-hover:rotate-6"}
+              `}
+                    />
 
+                    {/* Label */}
                     <span className="relative z-10 flex-1 text-left">
                       {item.label}
                     </span>
 
+                    {/* Active indicator */}
                     {isActive && (
-                      <span className="relative z-10 w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
+                      <span className="relative z-10 w-2 h-2 rounded-full bg-white animate-pulse" />
                     )}
                   </button>
                 </li>
@@ -219,17 +301,9 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
           </ul>
         </nav>
 
-        {/* Divider */}
-        <div className="my-5 h-px bg-gradient-to-r from-transparent via-gray-300/70 dark:via-gray-600/70 to-transparent" />
-
         {/* Footer */}
-        <div className="text-center space-y-1 pb-2">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} M Elham Abdussalam
-          </p>
-          <p className="text-[11px] text-gray-400 dark:text-gray-500">
-            Built with ❤️ using Next.js
-          </p>
+        <div className="text-center text-xs text-gray-500 dark:text-gray-400">
+          © {new Date().getFullYear()} M Elham Abdussalam
         </div>
       </aside>
     </>

@@ -24,7 +24,7 @@ interface SidebarProps {
   onNavigate: (section: string) => void;
 }
 
-export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
+export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();

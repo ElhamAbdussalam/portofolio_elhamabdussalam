@@ -58,24 +58,6 @@ export default function Home() {
             <MapPin className="w-5 h-5" />
             <span>Kudus, Central Java,Indonesia</span>
           </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=abdussalamelham@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
-            >
-              <Mail className="w-5 h-5 mr-2" />
-              Get in Touch
-            </a>
-
-            <button className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300">
-              <Download className="w-5 h-5 inline mr-2" />
-              Download CV
-            </button>
-          </div>
         </div>
       </div>
     </section>

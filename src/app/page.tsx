@@ -8,6 +8,7 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Lightning from "@/components/ui/Lightning";
+import Divider from "@/components/ui/Divider";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
@@ -37,7 +38,7 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="relative min-h-screen ">
+    <div className="relative min-h-screen">
       {/* BACKGROUND */}
       <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
         <Lightning hue={260} xOffset={0} speed={1} intensity={1} size={1} />
@@ -52,17 +53,25 @@ export default function Portfolio() {
             <Home />
           </section>
 
+          <Divider />
+
           <section id="about" className="min-h-screen">
             <About />
           </section>
+
+          <Divider />
 
           <section id="skills" className="min-h-screen">
             <Skills />
           </section>
 
+          <Divider />
+
           <section id="projects" className="min-h-screen">
             <Projects />
           </section>
+
+          <Divider />
 
           <section id="contact" className="min-h-screen">
             <Contact />

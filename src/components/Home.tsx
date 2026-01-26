@@ -71,7 +71,7 @@ export default function Home() {
             speed={0.5}
             scrambleChars=".:"
           >
-            <span className="italic font-bold text-blue-500">
+            <span className="italic font-bold text-indigo-500">
               Software Engineer | Full Stack Developer
             </span>{" "}
             crafting scalable and performance-driven web applications 🚀 that

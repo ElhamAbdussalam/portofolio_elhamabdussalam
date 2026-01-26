@@ -89,7 +89,7 @@ export default function About() {
                 scrambleChars=".:"
               >
                 I'm a{" "}
-                <span className="italic font-bold text-blue-500">
+                <span className="italic font-bold text-indigo-500">
                   Software Engineer | Full Stack Developer
                 </span>{" "}
                 based in Indonesia, focused on building scalable and impactful

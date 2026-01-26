@@ -33,7 +33,7 @@ export default function Home() {
 
           {/* Subtitle */}
           <p className="text-xl italic md:text-2xl text-gray-600 dark:text-gray-300 animate-pulse">
-            Full Stack Developer ● Front End Developer ● Back End Developer
+            Software Engineer ● Full Stack Developer
           </p>
 
           {/* Description / Scrambled Text */}
@@ -45,9 +45,9 @@ export default function Home() {
               speed={0.5}
               scrambleChars=".:"
             >
-              Full Stack Developer specializing in scalable and
-              performance-driven web applications. Proficient in React, Next.js,
-              TypeScript, Node.js, and Laravel, with a strong commitment to
+              Software Engineer | Full Stack Developer specializing in scalable
+              and performance-driven web applications. Experienced in React,
+              Next.js, TypeScript, Node.js, and Laravel, with a strong focus on
               clean architecture, user-centered design, and continuous
               improvement.
             </ScrambledText>

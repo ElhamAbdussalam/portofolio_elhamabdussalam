@@ -145,28 +145,6 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
             />
           </div>
 
-          <div className="flex justify-center items-center gap-3 mb-4">
-            <span className="relative inline-flex">
-              <span
-                className="
-      absolute inset-0 rounded-full
-      bg-gradient-to-r from-green-500 to-emerald-500
-      blur-md opacity-60
-      animate-pulse
-    "
-              />
-              <span
-                className="
-      relative px-4 py-2.5 text-xs font-semibold rounded-full text-white
-      bg-gradient-to-r from-green-600 to-emerald-600
-      shadow-md shadow-green-500/40
-    "
-              >
-                ● Available
-              </span>
-            </span>
-          </div>
-
           {/* Social */}
           <div className="flex justify-center gap-2">
             {socialLinks.map((social, index) => {

@@ -34,22 +34,18 @@ export default function Home() {
             </div>
           </h1>
 
-          {/* Name with Gradient */}
+          {/* Name */}
           <h2
-            className={`
-              text-4xl md:text-6xl font-extrabold
+            className={`text-4xl md:text-6xl font-extrabold
               bg-gradient-to-r from-indigo-500 via-pink-400 to-purple-400
               bg-[length:200%_200%]
-              bg-clip-text text-transparent
-              animate-gradient
-              leading-tight
-              transition-[opacity,transform,filter] duration-1000 delay-200
+              bg-clip-text text-transparent animate-gradient
+              transition-all duration-1000 delay-200
               ${
                 isLoaded
-                  ? "opacity-100 translate-y-0 scale-100 blur-0"
-                  : "opacity-0 translate-y-10 scale-95 blur-sm"
-              }
-            `}
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
           >
             M Elham Abdussalam
           </h2>
@@ -57,11 +53,11 @@ export default function Home() {
           {/* Subtitle */}
           <p
             className={`text-xl italic md:text-2xl text-gray-600 dark:text-gray-300
-              transition-[opacity,transform,filter] duration-1000 delay-300
+              transition-all duration-1000 delay-300
               ${
                 isLoaded
-                  ? "opacity-100 translate-y-0 blur-0"
-                  : "opacity-0 translate-y-6 blur-sm"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
               }`}
           >
             Software Engineer ● Full Stack Developer
@@ -69,7 +65,7 @@ export default function Home() {
 
           {/* Description */}
           <ScrambledText
-            className="scrambled-text-demo"
+            className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed"
             radius={100}
             duration={1.2}
             speed={0.5}
@@ -78,26 +74,37 @@ export default function Home() {
             <span className="italic font-bold text-blue-500">
               Software Engineer | Full Stack Developer
             </span>{" "}
-            specializing in scalable and performance-driven web applications.
+            crafting scalable and performance-driven web applications 🚀 that
+            solve real-world problems and deliver meaningful user experiences.
             Experienced in React, Next.js, TypeScript, Node.js, and Laravel,
             with a strong focus on clean architecture, user-centered design, and
-            continuous improvement.
+            continuous improvement ✨.
           </ScrambledText>
 
           {/* Location */}
           <div
-            className={`flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400
-              transition-[opacity,transform,filter] duration-1000 delay-700
-              ${
-                isLoaded
-                  ? "opacity-100 translate-y-0 blur-0"
-                  : "opacity-0 translate-y-6 blur-sm"
-              }`}
+            className={`flex items-center justify-center gap-3
+    transition-all duration-1000 delay-700
+    ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
           >
-            <MapPin className="w-5 h-5" />
-            <span className="font-semibold">
-              Kudus, Central Java, Indonesia
-            </span>
+            <div
+              className="
+      flex items-center gap-2 px-4 py-2 rounded-full
+      bg-gray-100/70 dark:bg-gray-800/60
+      backdrop-blur
+      shadow-sm
+      hover:shadow-md
+      transition-all
+      hover:-translate-y-0.5
+    "
+            >
+              <MapPin className="w-4 h-4 text-indigo-500 animate-bounce" />
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                <span className="font-semibold">
+                  Kudus, Central Java, Indonesia
+                </span>
+              </span>
+            </div>
           </div>
         </div>
       </div>

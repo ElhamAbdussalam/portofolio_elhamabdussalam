@@ -28,7 +28,7 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
   const menuItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "about", label: "About", icon: User },
-    { id: "skills", label: "Skills", icon: Award },
+    { id: "career", label: "Career", icon: Award },
     { id: "projects", label: "Projects", icon: FolderGit2 },
     { id: "contact", label: "Contact", icon: Mail },
   ];

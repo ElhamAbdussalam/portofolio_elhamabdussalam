@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Home from "@/components/Home";
 import About from "@/components/About";
-import Skills from "@/components/Skills";
+import Career from "@/components/Career";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Lightning from "@/components/ui/Lightning";
@@ -61,8 +61,8 @@ export default function Portfolio() {
 
           <Divider />
 
-          <section id="skills" className="min-h-screen">
-            <Skills />
+          <section id="career" className="min-h-screen">
+            <Career />
           </section>
 
           <Divider />

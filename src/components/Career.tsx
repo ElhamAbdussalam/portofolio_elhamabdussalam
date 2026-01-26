@@ -4,7 +4,7 @@
 import CareerCard from "./CareerCard";
 import { experiences } from "@/data/experiences";
 
-export default function Skills() {
+export default function Career() {
   return (
     <section className="min-h-screen py-20 px-4">
       {/* Career Section */}

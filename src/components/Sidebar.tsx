@@ -12,10 +12,12 @@ import {
   Github,
   Linkedin,
   Instagram,
+  Briefcase,
 } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import TextType from "./ui/TextType";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SidebarProps {
   activeSection: string;
@@ -24,13 +26,15 @@ interface SidebarProps {
 
 export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const menuItems = [
-    { id: "home", label: "Home", icon: Home },
-    { id: "about", label: "About", icon: User },
-    { id: "career", label: "Career", icon: Award },
-    { id: "projects", label: "Projects", icon: FolderGit2 },
-    { id: "contact", label: "Contact", icon: Mail },
+    { id: "home", label: "Home", icon: Home, path: "/home" },
+    { id: "about", label: "About", icon: User, path: "/about" },
+    { id: "career", label: "Career", icon: Briefcase, path: "/career" },
+    { id: "projects", label: "Projects", icon: FolderGit2, path: "/projects" },
+    { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
   ];
 
   const socialLinks = [
@@ -55,6 +59,11 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
       label: "Email",
     },
   ];
+
+  const handleNavigate = (path: string) => {
+    router.push(path);
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -131,9 +140,6 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
             />
           </div>
 
-          {/* <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-            M Elham Abdussalam
-          </h2> */}
           <div className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             <TextType
               text={["M Elham Abdussalam"]}
@@ -199,7 +205,7 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
           <ul className="space-y-2">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
-              const isActive = activeSection === item.id;
+              const isActive = pathname === item.path;
 
               return (
                 <li
@@ -209,8 +215,7 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
                 >
                   <button
                     onClick={() => {
-                      onNavigate(item.id);
-                      setIsOpen(false);
+                      handleNavigate(item.path);
                     }}
                     className={`
               group relative w-full flex items-center gap-4 px-5 h-12 rounded-xl

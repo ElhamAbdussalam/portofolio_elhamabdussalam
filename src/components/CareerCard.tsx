@@ -18,7 +18,7 @@ type Props = {
   };
 };
 
-export default function CareerCard({ data }: Props) {
+export default function ExperienceCard({ data }: Props) {
   const [open, setOpen] = useState(false);
 
   return (

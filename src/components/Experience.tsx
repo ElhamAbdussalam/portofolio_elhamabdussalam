@@ -4,6 +4,9 @@
 import CareerCard from "./CareerCard";
 import { experiences } from "@/data/experiences";
 import { motion } from "framer-motion";
+import Divider from "./ui/Divider";
+import { educations } from "@/data/education";
+import EducationCard from "./EducationCard";
 
 export default function Career() {
   return (
@@ -33,11 +36,8 @@ export default function Career() {
           }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-            Career
+            Work Experience
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2 italic">
-            My professional journey
-          </p>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mt-4" />
         </motion.div>
 
@@ -56,6 +56,52 @@ export default function Career() {
               }}
             >
               <CareerCard data={exp} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <Divider />
+        </motion.div>
+
+        {/* Header */}
+        <motion.div
+          className="text-center mb-10"
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.8, ease: "easeOut" },
+            },
+          }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+            Education
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mt-4" />
+        </motion.div>
+
+        {/* Education */}
+        <motion.div className="space-y-12">
+          {educations.map((edu) => (
+            <motion.div
+              key={edu.id}
+              variants={{
+                hidden: { opacity: 0, y: 40 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.6, ease: "easeOut" },
+                },
+              }}
+            >
+              <EducationCard data={edu} />
             </motion.div>
           ))}
         </motion.div>

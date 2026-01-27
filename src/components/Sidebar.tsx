@@ -32,7 +32,12 @@ export default function Sidebar() {
   const menuItems = [
     { id: "home", label: "Home", icon: Home, path: "/home" },
     { id: "about", label: "About", icon: User, path: "/about" },
-    { id: "career", label: "Career", icon: Briefcase, path: "/career" },
+    {
+      id: "experience",
+      label: "Experience",
+      icon: Briefcase,
+      path: "/experience",
+    },
     { id: "projects", label: "Projects", icon: FolderGit2, path: "/projects" },
     { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
   ];

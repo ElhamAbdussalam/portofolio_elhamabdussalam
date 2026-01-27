@@ -38,6 +38,12 @@ export default function Sidebar() {
       icon: Briefcase,
       path: "/experience",
     },
+    {
+      id: "achievements",
+      label: "Achievements",
+      icon: Award,
+      path: "/achievements",
+    },
     { id: "projects", label: "Projects", icon: FolderGit2, path: "/projects" },
     { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
   ];

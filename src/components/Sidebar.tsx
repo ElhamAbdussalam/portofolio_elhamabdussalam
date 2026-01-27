@@ -81,16 +81,16 @@ export default function Sidebar() {
       {/* Mobile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-slate-800 border border-slate-700 shadow-lg hover:border-blue-500/50 transition-all"
       >
         <div className="relative w-6 h-6">
           <Menu
-            className={`absolute w-6 h-6 transition ${
+            className={`absolute w-6 h-6 text-white transition ${
               isOpen ? "opacity-0 rotate-90" : "opacity-100"
             }`}
           />
           <X
-            className={`absolute w-6 h-6 transition ${
+            className={`absolute w-6 h-6 text-white transition ${
               isOpen ? "opacity-100" : "opacity-0 -rotate-90"
             }`}
           />
@@ -100,7 +100,7 @@ export default function Sidebar() {
       {/* Overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`lg:hidden fixed inset-0 bg-black/60 z-40 transition ${
+        className={`lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40 transition ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
@@ -108,10 +108,11 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
-        bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
-        border-r border-gray-200 dark:border-gray-700
+        bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900
+        border-r border-slate-700/50
         transform transition-all duration-300
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        shadow-2xl lg:shadow-none`}
       >
         {/* Profile */}
         <div className="text-center">
@@ -131,13 +132,13 @@ export default function Sidebar() {
     transition-transform duration-500
     group-hover:scale-105 group-hover:rotate-1"
             >
-              <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+              <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 ring-2 ring-slate-900">
                 <Image
                   src="/profile.png"
                   alt="Avatar"
                   width={112}
                   height={112}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
                   priority
                 />
               </div>
@@ -146,12 +147,12 @@ export default function Sidebar() {
             {/* Status Dot */}
             <div
               className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5
-    bg-green-500 rounded-full border-2 border-white dark:border-gray-800
+    bg-emerald-500 rounded-full border-2 border-slate-900
     animate-pulse"
             />
           </div>
 
-          <div className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             <TextType
               text={["M Elham Abdussalam"]}
               typingSpeed={150}
@@ -180,13 +181,13 @@ export default function Sidebar() {
                     rel="noopener noreferrer"
                     className="
             w-10 h-10 flex items-center justify-center rounded-xl
-            bg-gray-200 dark:bg-gray-700
-            text-gray-700 dark:text-gray-300
+            bg-slate-800/50 border border-slate-700/50
+            text-slate-400
             transition-all duration-300 ease-out
             group-hover:scale-110 group-hover:-rotate-6
             hover:bg-gradient-to-br hover:from-blue-500 hover:to-purple-600
-            hover:text-white
-            shadow-sm hover:shadow-lg
+            hover:text-white hover:border-transparent
+            shadow-sm hover:shadow-lg hover:shadow-blue-500/20
           "
                   >
                     <Icon className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" />
@@ -196,7 +197,7 @@ export default function Sidebar() {
                   <span
                     className="
             mt-1 text-[11px] font-medium
-            text-gray-600 dark:text-gray-400
+            text-slate-500
             opacity-0 translate-y-1
             group-hover:opacity-100 group-hover:translate-y-0
             transition-all duration-200
@@ -234,7 +235,7 @@ export default function Sidebar() {
               ${
                 isActive
                   ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-[1.02]"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:translate-x-1"
+                  : "text-slate-300 hover:bg-slate-800/50 hover:translate-x-1"
               }
             `}
                   >
@@ -272,8 +273,8 @@ export default function Sidebar() {
         </nav>
 
         {/* Footer */}
-        <div className="text-center text-xs text-gray-500 dark:text-gray-400">
-          © {new Date().getFullYear()} M Elham Abdussalam
+        <div className="text-center text-xs text-slate-500">
+          &copy; {new Date().getFullYear()} M Elham Abdussalam
         </div>
       </aside>
     </>

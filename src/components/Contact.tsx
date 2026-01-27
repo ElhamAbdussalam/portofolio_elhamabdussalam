@@ -48,12 +48,18 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
 
       // Reset success message after 3 seconds
       setTimeout(() => {
@@ -173,7 +179,7 @@ export default function Contact() {
               </span>
             </div>
             <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-              Let's Work Together
+              Let&apos;s Work Together
             </h2>
             <p className="text-slate-300 text-lg max-w-2xl mx-auto">
               Have a project in mind or just want to chat? Feel free to reach
@@ -401,7 +407,8 @@ export default function Contact() {
                       className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl"
                     >
                       <p className="text-emerald-400 text-sm text-center">
-                        Thank you for your message! I'll get back to you soon.
+                        Thank you for your message! I&apos;ll get back to you
+                        soon.
                       </p>
                     </motion.div>
                   )}
@@ -427,7 +434,7 @@ export default function Contact() {
                 Ready to start your project?
               </h3>
               <p className="text-slate-400 mb-6">
-                Let's create something amazing together!
+                Let&apos;s create something amazing together!
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a

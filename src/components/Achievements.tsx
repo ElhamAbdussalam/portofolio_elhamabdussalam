@@ -55,7 +55,7 @@ export default function AchievementsSection() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-10 py-10">
         {/* Header */}
         <div
           className={`text-center mb-10 transition-all duration-1000 ${
@@ -64,19 +64,9 @@ export default function AchievementsSection() {
               : "opacity-0 -translate-y-10"
           }`}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm mb-4">
-            <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
-            <span className="text-sm font-semibold text-blue-400">
-              My Certifications
-            </span>
-          </div>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Achievements
           </h2>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-4">
-            A curated collection of certificates and badges I have earned
-            throughout my professional and academic journey.
-          </p>
           <div
             className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
               isVisible ? "scale-x-100" : "scale-x-0"
@@ -95,29 +85,6 @@ export default function AchievementsSection() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-lg shadow-black/20"
             />
-          </div>
-          <div className="text-center mt-4">
-            <p className="text-slate-400">
-              {searchQuery ? (
-                <>
-                  Found{" "}
-                  <span className="text-blue-400 font-bold">
-                    {filteredAchievements.length}
-                  </span>{" "}
-                  {filteredAchievements.length === 1
-                    ? "achievement"
-                    : "achievements"}
-                </>
-              ) : (
-                <>
-                  Total{" "}
-                  <span className="text-blue-400 font-bold">
-                    {achievements.length}
-                  </span>{" "}
-                  {achievements.length === 1 ? "achievement" : "achievements"}
-                </>
-              )}
-            </p>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Search,
   Award,
@@ -15,6 +16,7 @@ import {
   Building2,
   Hash,
   CheckCircle,
+  Sparkles,
 } from "lucide-react";
 import { achievements, Achievement } from "@/data/achievements";
 
@@ -25,7 +27,6 @@ export default function AchievementsSection() {
     useState<Achievement | null>(null);
 
   useEffect(() => {
-    // Trigger animation after component mounts
     setIsVisible(true);
   }, []);
 
@@ -34,7 +35,8 @@ export default function AchievementsSection() {
       achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       achievement.organization
         .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+        .includes(searchQuery.toLowerCase()) ||
+      achievement.category.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 
@@ -62,9 +64,19 @@ export default function AchievementsSection() {
               : "opacity-0 -translate-y-10"
           }`}
         >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm mb-4">
+            <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+            <span className="text-sm font-semibold text-blue-400">
+              My Certifications
+            </span>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Achievements
           </h2>
+          <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-4">
+            A curated collection of certificates and badges I have earned
+            throughout my professional and academic journey.
+          </p>
           <div
             className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
               isVisible ? "scale-x-100" : "scale-x-0"
@@ -84,17 +96,29 @@ export default function AchievementsSection() {
               className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-lg shadow-black/20"
             />
           </div>
-          {searchQuery && (
-            <p className="text-center text-slate-400 mt-4">
-              Found{" "}
-              <span className="text-blue-400 font-bold">
-                {filteredAchievements.length}
-              </span>{" "}
-              {filteredAchievements.length === 1
-                ? "achievement"
-                : "achievements"}
+          <div className="text-center mt-4">
+            <p className="text-slate-400">
+              {searchQuery ? (
+                <>
+                  Found{" "}
+                  <span className="text-blue-400 font-bold">
+                    {filteredAchievements.length}
+                  </span>{" "}
+                  {filteredAchievements.length === 1
+                    ? "achievement"
+                    : "achievements"}
+                </>
+              ) : (
+                <>
+                  Total{" "}
+                  <span className="text-blue-400 font-bold">
+                    {achievements.length}
+                  </span>{" "}
+                  {achievements.length === 1 ? "achievement" : "achievements"}
+                </>
+              )}
             </p>
-          )}
+          </div>
         </div>
 
         {/* Achievements Grid */}
@@ -108,24 +132,33 @@ export default function AchievementsSection() {
               }}
             >
               {/* Certificate Image */}
-              <div
-                className={`h-48 bg-gradient-to-br ${achievement.bgColor} relative overflow-hidden`}
-              >
-                <div className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center">
-                  <div className="text-center p-6">
-                    <Award className="w-16 h-16 text-white/90 mx-auto mb-3" />
-                    <div className="text-white/90 font-bold text-sm">
-                      Certificate Preview
-                    </div>
+              <div className="relative h-48 overflow-hidden bg-slate-800">
+                {achievement.image ? (
+                  <>
+                    <Image
+                      src={achievement.image}
+                      alt={achievement.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+                  </>
+                ) : (
+                  <div
+                    className={`h-full bg-gradient-to-br ${achievement.bgColor} flex items-center justify-center`}
+                  >
+                    <Award className="w-16 h-16 text-white/50" />
                   </div>
-                </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                )}
+
+                {/* Hover overlay with button */}
+                <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                   <button
                     onClick={() => setSelectedAchievement(achievement)}
-                    className="px-6 py-2 bg-white text-slate-950 rounded-lg font-bold hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-500 hover:text-white transition-all"
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
                   >
-                    View Detail →
+                    View Details →
                   </button>
                 </div>
               </div>
@@ -149,7 +182,7 @@ export default function AchievementsSection() {
 
                 {/* Tags */}
                 <div className="flex gap-2 mb-4">
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs font-medium">
+                  <span className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-full text-xs font-medium">
                     {achievement.category}
                   </span>
                 </div>
@@ -171,7 +204,7 @@ export default function AchievementsSection() {
           <div className="text-center py-20">
             <BookOpen className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <p className="text-slate-500 text-lg">
-              No achievements found matching your filters.
+              No achievements found matching your search.
             </p>
           </div>
         )}
@@ -181,11 +214,26 @@ export default function AchievementsSection() {
       {selectedAchievement && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-scaleIn">
-            {/* Modal Header with Certificate Preview */}
-            <div
-              className={`relative h-64 bg-gradient-to-br ${selectedAchievement.bgColor} overflow-hidden`}
-            >
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+            {/* Modal Header with Certificate Image */}
+            <div className="relative h-80 overflow-hidden bg-slate-800">
+              {selectedAchievement.image ? (
+                <>
+                  <Image
+                    src={selectedAchievement.image}
+                    alt={selectedAchievement.title}
+                    fill
+                    className="object-contain p-8"
+                  />
+                  {/* Dark overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-slate-900/30" />
+                </>
+              ) : (
+                <div
+                  className={`h-full bg-gradient-to-br ${selectedAchievement.bgColor} flex items-center justify-center`}
+                >
+                  <Award className="w-32 h-32 text-white/50" />
+                </div>
+              )}
 
               {/* Close Button */}
               <button
@@ -195,31 +243,24 @@ export default function AchievementsSection() {
                 <X className="w-5 h-5 text-white" />
               </button>
 
-              {/* Certificate Preview */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <Award className="w-24 h-24 text-white/90 mx-auto mb-4 drop-shadow-lg" />
-                  <h2 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
-                    {selectedAchievement.title}
-                  </h2>
-                  <p className="text-white/80 text-lg">
-                    {selectedAchievement.organization}
-                  </p>
-                </div>
+              {/* Title Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  {selectedAchievement.title}
+                </h2>
+                <p className="text-slate-300 text-lg">
+                  {selectedAchievement.organization}
+                </p>
               </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute top-0 left-0 w-40 h-40 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
-              <div className="absolute bottom-0 right-0 w-60 h-60 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3" />
             </div>
 
             {/* Modal Content */}
-            <div className="p-8 overflow-y-auto max-h-[calc(90vh-16rem)]">
-              {/* Certificate Code & Verification */}
+            <div className="p-8 overflow-y-auto max-h-[calc(90vh-20rem)]">
+              {/* Certificate Code & Actions */}
               <div className="flex items-center justify-between mb-6 pb-6 border-b border-slate-800">
                 <div className="flex items-center gap-3">
                   <Hash className="w-5 h-5 text-slate-500" />
-                  <span className="font-mono text-slate-400">
+                  <span className="font-mono text-slate-400 text-sm">
                     {selectedAchievement.code}
                   </span>
                   <CheckCircle className="w-5 h-5 text-emerald-500" />
@@ -241,12 +282,21 @@ export default function AchievementsSection() {
                   >
                     <ExternalLink className="w-5 h-5 text-slate-300" />
                   </a>
+                  {selectedAchievement.image && (
+                    <a
+                      href={selectedAchievement.image}
+                      download
+                      className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors"
+                      title="Download"
+                    >
+                      <Download className="w-5 h-5 text-white" />
+                    </a>
+                  )}
                 </div>
               </div>
 
               {/* Info Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* Issue Date */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Calendar className="w-5 h-5 text-blue-400" />
@@ -257,7 +307,6 @@ export default function AchievementsSection() {
                   </p>
                 </div>
 
-                {/* Organization */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Building2 className="w-5 h-5 text-blue-400" />
@@ -268,7 +317,6 @@ export default function AchievementsSection() {
                   </p>
                 </div>
 
-                {/* Duration */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Award className="w-5 h-5 text-blue-400" />
@@ -279,7 +327,6 @@ export default function AchievementsSection() {
                   </p>
                 </div>
 
-                {/* Category */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Code className="w-5 h-5 text-blue-400" />

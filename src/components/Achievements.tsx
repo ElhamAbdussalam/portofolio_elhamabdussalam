@@ -65,10 +65,6 @@ export default function AchievementsSection() {
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Achievements
           </h2>
-          <p className="text-slate-300 text-lg mb-4">
-            A curated collection of certificates and badges I've earned
-            throughout my professional and academic journey.
-          </p>
           <div
             className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
               isVisible ? "scale-x-100" : "scale-x-0"
@@ -153,9 +149,6 @@ export default function AchievementsSection() {
 
                 {/* Tags */}
                 <div className="flex gap-2 mb-4">
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs font-medium">
-                    {achievement.type}
-                  </span>
                   <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs font-medium">
                     {achievement.category}
                   </span>
@@ -248,12 +241,6 @@ export default function AchievementsSection() {
                   >
                     <ExternalLink className="w-5 h-5 text-slate-300" />
                   </a>
-                  <button
-                    className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors"
-                    title="Download"
-                  >
-                    <Download className="w-5 h-5 text-white" />
-                  </button>
                 </div>
               </div>
 
@@ -332,19 +319,6 @@ export default function AchievementsSection() {
                   ))}
                 </div>
               </div>
-
-              {/* Verify Button */}
-              <a
-                href={selectedAchievement.verifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 rounded-xl transition-all text-center shadow-lg shadow-blue-500/20"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <CheckCircle className="w-5 h-5" />
-                  Verify Certificate
-                </span>
-              </a>
             </div>
           </div>
         </div>

@@ -23,6 +23,7 @@ import { achievements, Achievement } from "@/data/achievements";
 export default function AchievementsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedAchievement, setSelectedAchievement] =
     useState<Achievement | null>(null);
 
@@ -30,14 +31,31 @@ export default function AchievementsSection() {
     setIsVisible(true);
   }, []);
 
+  // Get unique categories from all achievements
+  const allCategories = achievements.flatMap((a) =>
+    Array.isArray(a.category) ? a.category : [a.category],
+  );
+  const categories = ["all", ...Array.from(new Set(allCategories))];
+
   const filteredAchievements = achievements.filter((achievement) => {
+    const achievementCategories = Array.isArray(achievement.category)
+      ? achievement.category
+      : [achievement.category];
+
     const matchesSearch =
       achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       achievement.organization
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
-      achievement.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
+      achievementCategories.some((cat) =>
+        cat.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+
+    const matchesCategory =
+      selectedCategory === "all" ||
+      achievementCategories.includes(selectedCategory);
+
+    return matchesSearch && matchesCategory;
   });
 
   const handleShare = (achievement: Achievement) => {
@@ -76,7 +94,7 @@ export default function AchievementsSection() {
 
         {/* Search Bar */}
         <div className="mb-12">
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative max-w-2xl mx-auto mb-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
@@ -85,6 +103,23 @@ export default function AchievementsSection() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-lg shadow-black/20"
             />
+          </div>
+
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full font-medium transition-all text-sm ${
+                  selectedCategory === category
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
+                }`}
+              >
+                {category === "all" ? "All Categories" : category}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -148,10 +183,18 @@ export default function AchievementsSection() {
                 </p>
 
                 {/* Tags */}
-                <div className="flex gap-2 mb-4">
-                  <span className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-full text-xs font-medium">
-                    {achievement.category}
-                  </span>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {(Array.isArray(achievement.category)
+                    ? achievement.category
+                    : [achievement.category]
+                  ).map((cat, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-full text-xs font-medium"
+                    >
+                      {cat}
+                    </span>
+                  ))}
                 </div>
 
                 {/* Issue Date */}
@@ -297,11 +340,26 @@ export default function AchievementsSection() {
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Code className="w-5 h-5 text-blue-400" />
-                    <span className="text-slate-400 text-sm">Category</span>
+                    <span className="text-slate-400 text-sm">
+                      {Array.isArray(selectedAchievement.category) &&
+                      selectedAchievement.category.length > 1
+                        ? "Categories"
+                        : "Category"}
+                    </span>
                   </div>
-                  <p className="text-white font-semibold text-lg">
-                    {selectedAchievement.category}
-                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {(Array.isArray(selectedAchievement.category)
+                      ? selectedAchievement.category
+                      : [selectedAchievement.category]
+                    ).map((cat, idx) => (
+                      <span
+                        key={idx}
+                        className="text-white font-semibold text-sm px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-lg"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 

@@ -138,7 +138,7 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen py-20 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+      className="min-h-screen py-10 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -149,18 +149,12 @@ export default function About() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
+          className={`text-center mb-10 transition-all duration-1000 ${
             isVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-10"
           }`}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm mb-4">
-            <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
-            <span className="text-sm font-semibold text-blue-400">
-              Get to know me
-            </span>
-          </div>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             About Me
           </h2>
@@ -211,7 +205,7 @@ export default function About() {
                   : "opacity-0 translate-x-10"
               }`}
             >
-              <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+              <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 text-justify">
                 <ScrambledText
                   className="text-slate-300 text-base md:text-lg leading-relaxed"
                   radius={100}
@@ -260,7 +254,7 @@ export default function About() {
         </div>
 
         {/* Stats Grid */}
-        <div
+        {/* <div
           className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 transition-all duration-1000 delay-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
@@ -280,10 +274,10 @@ export default function About() {
               <div className="text-slate-400 text-sm">{stat.label}</div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Skills Section */}
-        <div
+        {/* <div
           className={`mb-20 transition-all duration-1000 delay-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
@@ -314,10 +308,10 @@ export default function About() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Values Grid */}
-        <div
+        {/* <div
           className={`transition-all duration-1000 delay-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
@@ -352,7 +346,7 @@ export default function About() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

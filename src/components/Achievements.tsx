@@ -16,13 +16,14 @@ import {
   Hash,
   CheckCircle,
 } from "lucide-react";
-import { achievements } from "@/data/achievements";
+import { achievements, Achievement } from "@/data/achievements";
 
 export default function AchievementsSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
+  const [selectedAchievement, setSelectedAchievement] =
+    useState<Achievement | null>(null);
 
   const filteredAchievements = achievements.filter((achievement) => {
     const matchesSearch =
@@ -36,7 +37,7 @@ export default function AchievementsSection() {
     return matchesSearch && matchesType && matchesCategory;
   });
 
-  const handleShare = (achievement) => {
+  const handleShare = (achievement: Achievement) => {
     if (navigator.share) {
       navigator.share({
         title: achievement.title,
@@ -167,11 +168,9 @@ export default function AchievementsSection() {
           {filteredAchievements.map((achievement, index) => (
             <div
               key={achievement.id}
-              className="group relative bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:-translate-y-1"
+              className="group relative bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:-translate-y-1 animate-fadeInUp opacity-0"
               style={{
                 animationDelay: `${index * 100}ms`,
-                animation: "fadeInUp 0.6s ease-out forwards",
-                opacity: 0,
               }}
             >
               {/* Certificate Image */}
@@ -451,6 +450,10 @@ export default function AchievementsSection() {
 
         .animate-scaleIn {
           animation: scaleIn 0.3s ease-out forwards;
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out forwards;
         }
       `}</style>
     </div>

@@ -21,8 +21,6 @@ import { achievements, Achievement } from "@/data/achievements";
 export default function AchievementsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState("all");
-  const [filterCategory, setFilterCategory] = useState("all");
   const [selectedAchievement, setSelectedAchievement] =
     useState<Achievement | null>(null);
 
@@ -37,10 +35,7 @@ export default function AchievementsSection() {
       achievement.organization
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
-    const matchesType = filterType === "all" || achievement.type === filterType;
-    const matchesCategory =
-      filterCategory === "all" || achievement.category === filterCategory;
-    return matchesSearch && matchesType && matchesCategory;
+    return matchesSearch;
   });
 
   const handleShare = (achievement: Achievement) => {
@@ -81,96 +76,29 @@ export default function AchievementsSection() {
           />
         </div>
 
-        {/* Filters */}
-        <div className="mb-8 space-y-4">
-          {/* Search Bar */}
-          <div className="relative">
+        {/* Search Bar */}
+        <div className="mb-12">
+          <div className="relative max-w-2xl mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
               placeholder="Search achievements..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-lg shadow-black/20"
             />
           </div>
-
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap gap-3">
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFilterType("all")}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  filterType === "all"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
-                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
-              >
-                All Types
-              </button>
-              <button
-                onClick={() => setFilterType("Professional")}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  filterType === "Professional"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
-                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
-              >
-                Professional
-              </button>
-              <button
-                onClick={() => setFilterType("Course")}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  filterType === "Course"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
-                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
-              >
-                Course
-              </button>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFilterCategory("all")}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  filterCategory === "all"
-                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/30"
-                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
-              >
-                All Categories
-              </button>
-              {[
-                "Backend",
-                "Frontend",
-                "Mobile",
-                "Cloud",
-                "Design",
-                "Freelance",
-              ].map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setFilterCategory(category)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                    filterCategory === category
-                      ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/30"
-                      : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Total Count */}
-          <div className="text-slate-300">
-            Total:{" "}
-            <span className="text-blue-400 font-bold">
-              {filteredAchievements.length}
-            </span>
-          </div>
+          {searchQuery && (
+            <p className="text-center text-slate-400 mt-4">
+              Found{" "}
+              <span className="text-blue-400 font-bold">
+                {filteredAchievements.length}
+              </span>{" "}
+              {filteredAchievements.length === 1
+                ? "achievement"
+                : "achievements"}
+            </p>
+          )}
         </div>
 
         {/* Achievements Grid */}

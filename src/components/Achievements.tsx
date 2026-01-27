@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   Award,
@@ -19,11 +19,17 @@ import {
 import { achievements, Achievement } from "@/data/achievements";
 
 export default function AchievementsSection() {
+  const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const [selectedAchievement, setSelectedAchievement] =
     useState<Achievement | null>(null);
+
+  useEffect(() => {
+    // Trigger animation after component mounts
+    setIsVisible(true);
+  }, []);
 
   const filteredAchievements = achievements.filter((achievement) => {
     const matchesSearch =
@@ -51,37 +57,41 @@ export default function AchievementsSection() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <Award className="w-8 h-8 text-slate-950" />
-            </div>
-            <div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">
-                Achievements
-              </h1>
-              <p className="text-slate-400 text-lg mt-1">
-                A curated collection of certificates and badges I've earned
-                throughout my professional and academic journey.
-              </p>
-            </div>
-          </div>
+        <div
+          className={`text-center mb-10 transition-all duration-1000 ${
+            isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-10"
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+            Achievements
+          </h2>
+          <p className="text-slate-300 text-lg mb-4">
+            A curated collection of certificates and badges I've earned
+            throughout my professional and academic journey.
+          </p>
+          <div
+            className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
+              isVisible ? "scale-x-100" : "scale-x-0"
+            }`}
+          />
         </div>
 
         {/* Filters */}
         <div className="mb-8 space-y-4">
           {/* Search Bar */}
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
               placeholder="Search achievements..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
           </div>
 
@@ -92,8 +102,8 @@ export default function AchievementsSection() {
                 onClick={() => setFilterType("all")}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filterType === "all"
-                    ? "bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30"
-                    : "bg-slate-900/50 text-slate-400 hover:bg-slate-800 border border-slate-800"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
                 }`}
               >
                 All Types
@@ -102,8 +112,8 @@ export default function AchievementsSection() {
                 onClick={() => setFilterType("Professional")}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filterType === "Professional"
-                    ? "bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30"
-                    : "bg-slate-900/50 text-slate-400 hover:bg-slate-800 border border-slate-800"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
                 }`}
               >
                 Professional
@@ -112,8 +122,8 @@ export default function AchievementsSection() {
                 onClick={() => setFilterType("Course")}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filterType === "Course"
-                    ? "bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30"
-                    : "bg-slate-900/50 text-slate-400 hover:bg-slate-800 border border-slate-800"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
                 }`}
               >
                 Course
@@ -125,8 +135,8 @@ export default function AchievementsSection() {
                 onClick={() => setFilterCategory("all")}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filterCategory === "all"
-                    ? "bg-rose-500 text-slate-950 shadow-lg shadow-rose-500/30"
-                    : "bg-slate-900/50 text-slate-400 hover:bg-slate-800 border border-slate-800"
+                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/30"
+                    : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
                 }`}
               >
                 All Categories
@@ -144,8 +154,8 @@ export default function AchievementsSection() {
                   onClick={() => setFilterCategory(category)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${
                     filterCategory === category
-                      ? "bg-rose-500 text-slate-950 shadow-lg shadow-rose-500/30"
-                      : "bg-slate-900/50 text-slate-400 hover:bg-slate-800 border border-slate-800"
+                      ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/30"
+                      : "bg-slate-800/50 text-slate-300 hover:bg-slate-700 border border-slate-700"
                   }`}
                 >
                   {category}
@@ -155,9 +165,9 @@ export default function AchievementsSection() {
           </div>
 
           {/* Total Count */}
-          <div className="text-slate-400">
+          <div className="text-slate-300">
             Total:{" "}
-            <span className="text-amber-400 font-bold">
+            <span className="text-blue-400 font-bold">
               {filteredAchievements.length}
             </span>
           </div>
@@ -168,7 +178,7 @@ export default function AchievementsSection() {
           {filteredAchievements.map((achievement, index) => (
             <div
               key={achievement.id}
-              className="group relative bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:-translate-y-1 animate-fadeInUp opacity-0"
+              className="group relative bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1 animate-fadeInUp opacity-0"
               style={{
                 animationDelay: `${index * 100}ms`,
               }}
@@ -189,7 +199,7 @@ export default function AchievementsSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
                   <button
                     onClick={() => setSelectedAchievement(achievement)}
-                    className="px-6 py-2 bg-white text-slate-950 rounded-lg font-bold hover:bg-amber-400 transition-colors"
+                    className="px-6 py-2 bg-white text-slate-950 rounded-lg font-bold hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-500 hover:text-white transition-all"
                   >
                     View Detail →
                   </button>
@@ -204,7 +214,7 @@ export default function AchievementsSection() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-slate-100 mb-2 line-clamp-2 group-hover:text-amber-400 transition-colors">
+                <h3 className="text-lg font-bold text-slate-100 mb-2 line-clamp-2 group-hover:text-blue-400 transition-colors">
                   {achievement.title}
                 </h3>
 
@@ -230,7 +240,7 @@ export default function AchievementsSection() {
               </div>
 
               {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-amber-500/10 to-transparent rounded-bl-full" />
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full" />
             </div>
           ))}
         </div>
@@ -311,10 +321,10 @@ export default function AchievementsSection() {
                     <ExternalLink className="w-5 h-5 text-slate-300" />
                   </a>
                   <button
-                    className="p-2 bg-amber-500 hover:bg-amber-600 rounded-lg transition-colors"
+                    className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors"
                     title="Download"
                   >
-                    <Download className="w-5 h-5 text-slate-950" />
+                    <Download className="w-5 h-5 text-white" />
                   </button>
                 </div>
               </div>
@@ -324,7 +334,7 @@ export default function AchievementsSection() {
                 {/* Issue Date */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
-                    <Calendar className="w-5 h-5 text-amber-400" />
+                    <Calendar className="w-5 h-5 text-blue-400" />
                     <span className="text-slate-400 text-sm">Issue Date</span>
                   </div>
                   <p className="text-white font-semibold text-lg">
@@ -335,7 +345,7 @@ export default function AchievementsSection() {
                 {/* Organization */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
-                    <Building2 className="w-5 h-5 text-amber-400" />
+                    <Building2 className="w-5 h-5 text-blue-400" />
                     <span className="text-slate-400 text-sm">Organization</span>
                   </div>
                   <p className="text-white font-semibold text-lg">
@@ -346,7 +356,7 @@ export default function AchievementsSection() {
                 {/* Duration */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
-                    <Award className="w-5 h-5 text-amber-400" />
+                    <Award className="w-5 h-5 text-blue-400" />
                     <span className="text-slate-400 text-sm">Duration</span>
                   </div>
                   <p className="text-white font-semibold text-lg">
@@ -357,7 +367,7 @@ export default function AchievementsSection() {
                 {/* Category */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
-                    <Code className="w-5 h-5 text-amber-400" />
+                    <Code className="w-5 h-5 text-blue-400" />
                     <span className="text-slate-400 text-sm">Category</span>
                   </div>
                   <p className="text-white font-semibold text-lg">
@@ -369,7 +379,7 @@ export default function AchievementsSection() {
               {/* Description */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-amber-400" />
+                  <BookOpen className="w-5 h-5 text-blue-400" />
                   Description
                 </h3>
                 <p className="text-slate-300 leading-relaxed">
@@ -380,14 +390,14 @@ export default function AchievementsSection() {
               {/* Skills */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 text-amber-400" />
+                  <Briefcase className="w-5 h-5 text-blue-400" />
                   Skills Acquired
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedAchievement.skills.map((skill, index) => (
                     <span
                       key={index}
-                      className="px-4 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-lg text-amber-400 font-medium"
+                      className="px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg text-blue-400 font-medium"
                     >
                       {skill}
                     </span>
@@ -400,7 +410,7 @@ export default function AchievementsSection() {
                 href={selectedAchievement.verifyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold py-4 rounded-xl transition-all text-center shadow-lg shadow-amber-500/20"
+                className="block w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 rounded-xl transition-all text-center shadow-lg shadow-blue-500/20"
               >
                 <span className="flex items-center justify-center gap-2">
                   <CheckCircle className="w-5 h-5" />

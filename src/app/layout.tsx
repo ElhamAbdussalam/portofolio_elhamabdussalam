@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "M Elham Abdussalam - Portfolio",
   description:
     "Portfolio of Muhammad Elham Abdussalam, a passionate Full Stack Developer specializing in modern web technologies.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

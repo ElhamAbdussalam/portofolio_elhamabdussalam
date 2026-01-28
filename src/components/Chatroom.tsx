@@ -33,31 +33,6 @@ const DEMO_MESSAGES: Message[] = [
     timestamp: new Date("2026-01-22T19:18:00"),
     provider: "google",
   },
-  {
-    id: "2",
-    userId: "user-demo-2",
-    userName: "VIP M",
-    message: "P",
-    timestamp: new Date("2026-01-26T23:39:00"),
-    provider: "github",
-  },
-  {
-    id: "3",
-    userId: "user-demo-3",
-    userName: "Asadekontol Memek",
-    message:
-      "ngebug tuh HomePage.resume.paragraf_1 HomePage.resume.paragraf_2, dari mana sisi bagusnya ya? low appetite.",
-    timestamp: new Date("2026-01-27T01:10:00"),
-    provider: "google",
-  },
-  {
-    id: "4",
-    userId: "user-demo-4",
-    userName: "User Marquardt",
-    message: "Keren bg, project sering di pantau sama di urus",
-    timestamp: new Date("2026-01-27T05:51:00"),
-    provider: "github",
-  },
 ];
 
 export default function ChatRoomSection() {
@@ -159,7 +134,7 @@ export default function ChatRoomSection() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 py-20 px-4 relative overflow-hidden">
+    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 py-10 px-10 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
@@ -169,26 +144,16 @@ export default function ChatRoomSection() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm mb-4">
-            <MessageSquare className="w-4 h-4 text-blue-400 animate-pulse" />
-            <span className="text-sm font-semibold text-blue-400">
-              Community Chat
-            </span>
-          </div>
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Chat Room
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Feel free to share your thoughts, suggestions, questions, or
-            anything else!
-          </p>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mt-6" />
         </div>
 
         {/* Messages Container */}
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
           {/* Messages List */}
-          <div className="p-6 space-y-6 min-h-[500px] max-h-[600px] overflow-y-auto bg-slate-900/20">
+          <div className="p-6 space-y-6 min-h-[200px] max-h-[300px] overflow-y-auto bg-slate-900/20">
             {messages.map((msg) => (
               <div key={msg.id} className="flex gap-4">
                 {/* Avatar */}
@@ -234,9 +199,9 @@ export default function ChatRoomSection() {
           {/* Input Area */}
           {!user ? (
             // Login Required Section
-            <div className="border-t border-slate-700 bg-slate-900/50 backdrop-blur-sm p-8">
+            <div className="border-t border-slate-700 bg-slate-900/50 backdrop-blur-sm p-4">
               <div className="max-w-2xl mx-auto text-center">
-                <div className="flex items-center justify-center gap-2 mb-6">
+                <div className="flex items-center justify-center gap-2 mb-4">
                   <Shield className="w-5 h-5 text-slate-400" />
                   <p className="text-slate-400">
                     Please sign in to join the conversation. Don&apos;t worry,
@@ -336,51 +301,6 @@ export default function ChatRoomSection() {
               </div>
             </form>
           )}
-        </div>
-
-        {/* Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-500/30 transition-all">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Eye className="w-6 h-6 text-blue-400" />
-              </div>
-              <div>
-                <h3 className="font-bold text-white mb-2">Public Chat</h3>
-                <p className="text-slate-400 text-sm">
-                  All messages are visible to everyone. Be respectful!
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-purple-500/30 transition-all">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Shield className="w-6 h-6 text-purple-400" />
-              </div>
-              <div>
-                <h3 className="font-bold text-white mb-2">Safe & Secure</h3>
-                <p className="text-slate-400 text-sm">
-                  Your data is protected with industry-standard security
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-pink-500/30 transition-all">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <MessageSquare className="w-6 h-6 text-pink-400" />
-              </div>
-              <div>
-                <h3 className="font-bold text-white mb-2">Active Community</h3>
-                <p className="text-slate-400 text-sm">
-                  Join discussions and connect with other visitors
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

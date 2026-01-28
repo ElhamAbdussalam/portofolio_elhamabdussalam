@@ -306,7 +306,7 @@ export const projects: Project[] = [
       "A modern and responsive personal portfolio showcasing my journey as a Front End Developer, featuring selected projects, skills, and experience with a clean and elegant UI.",
     longDescription:
       "Portofolio V2 is the second iteration of my personal portfolio website, built to showcase my growth as a Front End Developer through a clean, modern, and responsive interface. This version focuses on delivering a smooth user experience, well-structured layouts, and visually consistent design while highlighting selected projects, technical skills, and professional background. Developed using modern frontend technologies, this portfolio reflects my commitment to writing clean, maintainable code and continuously improving my skills as I explore new tools, patterns, and best practices in frontend development. 🔥",
-    image: "/projects-7.png",
+    image: "/projects-8.png",
     category: "Frontend Developer",
     technologies: [
       "React",

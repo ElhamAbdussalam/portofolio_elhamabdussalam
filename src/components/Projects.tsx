@@ -27,15 +27,21 @@ export default function ProjectsSection() {
     setIsVisible(true);
   }, []);
 
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch =
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.technologies.some((tech) =>
-        tech.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-    return matchesSearch;
-  });
+  const filteredProjects = projects
+    .filter((project) => {
+      const matchesSearch =
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.technologies.some((tech) =>
+          tech.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
+      return matchesSearch;
+    })
+    .sort((a, b) => {
+      const yearA = typeof a.year === "number" ? a.year : parseInt(a.year);
+      const yearB = typeof b.year === "number" ? b.year : parseInt(b.year);
+      return yearB - yearA;
+    }); // Urutkan dari tahun terbaru
 
   const getStatusColor = (status: string) => {
     switch (status) {

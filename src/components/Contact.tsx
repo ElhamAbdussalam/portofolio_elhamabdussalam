@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import {
   Mail,
   MapPin,
-  Phone,
   Send,
   Github,
   Linkedin,
@@ -16,6 +15,8 @@ import {
   Sparkles,
   CheckCircle,
   Loader2,
+  Clock,
+  Globe,
 } from "lucide-react";
 
 export default function Contact() {
@@ -77,18 +78,25 @@ export default function Contact() {
       color: "blue",
     },
     {
-      icon: Phone,
-      label: "Phone",
-      value: "+62 812 3456 7890",
-      href: "tel:+6281234567890",
-      color: "purple",
-    },
-    {
       icon: MapPin,
       label: "Location",
       value: "Kudus, Central Java, Indonesia",
       href: "https://maps.google.com",
+      color: "purple",
+    },
+    {
+      icon: Clock,
+      label: "Availability",
+      value: "Mon - Fri, 9:00 AM - 6:00 PM (GMT+7)",
+      href: "#",
       color: "pink",
+    },
+    {
+      icon: Globe,
+      label: "Languages",
+      value: "Indonesian, English",
+      href: "#",
+      color: "blue",
     },
   ];
 
@@ -211,10 +219,15 @@ export default function Contact() {
                   <motion.a
                     key={index}
                     href={info.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br ${getColorClasses(info.color)} backdrop-blur-sm border transition-all hover:-translate-y-1 hover:shadow-xl group`}
+                    target={info.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      info.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className={`flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br ${getColorClasses(info.color)} backdrop-blur-sm border transition-all hover:-translate-y-1 hover:shadow-xl group ${info.href === "#" ? "cursor-default" : ""}`}
                     whileHover={{ scale: 1.02 }}
+                    onClick={(e) => info.href === "#" && e.preventDefault()}
                   >
                     <div className="w-12 h-12 rounded-xl bg-slate-800/50 flex items-center justify-center border border-slate-700/50 group-hover:scale-110 transition-transform">
                       <info.icon
@@ -263,7 +276,7 @@ export default function Contact() {
                 </h4>
                 <p className="text-slate-400 text-sm leading-relaxed">
                   I typically respond within 24 hours. For urgent matters, feel
-                  free to reach out via phone or social media.
+                  free to reach out via email or social media.
                 </p>
               </div>
             </motion.div>

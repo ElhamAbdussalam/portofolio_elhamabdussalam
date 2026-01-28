@@ -22,7 +22,7 @@ export const achievements: Achievement[] = [
     category: ["Backend", "Artificial Intelligence"],
     issueDate: "June 2025",
     code: "0LZ0RWR4NP65",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-blue-500 to-purple-600", // Blue-Purple untuk Backend + AI
     description:
       "A comprehensive Python course that covers the language's evolution and core syntax, data handling, expressions, control flow, arrays, matrices, functions, OOP, coding standards, unit testing, and the use of popular libraries for real-world applications.",
     skills: [
@@ -48,7 +48,7 @@ export const achievements: Achievement[] = [
     category: "Backend",
     issueDate: "May 2025",
     code: "ERZREOGLQXYV",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-indigo-500 to-blue-600", // Indigo-Blue untuk Backend
     description:
       "An introductory back-end course that covers the fundamentals of server-side development, Node.js basics, building and deploying RESTful APIs, and testing web services using Postman.",
     skills: [
@@ -83,7 +83,7 @@ export const achievements: Achievement[] = [
     category: "Frontend",
     issueDate: "Jan 2025",
     code: "GRX53KODKZ0M",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-cyan-500 to-teal-600", // Cyan-Teal untuk Frontend
     description:
       "An in-depth front-end module focusing on Browser Object Model (BOM), Document Object Model (DOM) manipulation, event handling for interactive web experiences, and client-side data storage using Web Storage APIs.",
     skills: [
@@ -110,7 +110,7 @@ export const achievements: Achievement[] = [
     category: ["Cloud Computing", "Backend"],
     issueDate: "Feb 2025",
     code: "81P2L3VVNZOY",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-orange-500 to-amber-600", // Orange-Amber untuk Cloud
     description:
       "A comprehensive introduction to Amazon Web Services (AWS) covering cloud computing fundamentals, global infrastructure, networking, storage, security, monitoring, pricing models, migration strategies, and preparation for the AWS Certified Cloud Practitioner certification.",
     skills: [
@@ -155,7 +155,7 @@ export const achievements: Achievement[] = [
     category: "Artificial Intelligence",
     issueDate: "Dec 2024",
     code: "JMZV4W42QXN9",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-purple-500 to-pink-600", // Purple-Pink untuk AI
     description:
       "An introductory course on Artificial Intelligence covering fundamental AI concepts, data utilization for AI, machine learning basics, and an overview of deep learning with practical implementation examples.",
     skills: [
@@ -181,7 +181,7 @@ export const achievements: Achievement[] = [
     category: ["Frontend", "Backend"],
     issueDate: "Dec 2024",
     code: "QLZ9V0N0MX5D",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-emerald-500 to-green-600", // Emerald-Green untuk Full Stack
     description:
       "A comprehensive JavaScript fundamentals course covering runtime environments, core syntax, data structures, control flow, modularization, object-oriented and functional programming, asynchronous processes, and writing high-quality, maintainable code.",
     skills: [
@@ -218,7 +218,7 @@ export const achievements: Achievement[] = [
     category: ["Frontend", "Backend"],
     issueDate: "Oct 2024",
     code: "JMZV41G3QXN9",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-sky-500 to-blue-600", // Sky-Blue untuk Web
     description:
       "A foundational web development course covering website fundamentals, HTML structure and semantics, CSS styling and layout techniques, responsive design with Flexbox, and hands-on implementation through a complete website project.",
     skills: [
@@ -254,7 +254,7 @@ export const achievements: Achievement[] = [
     category: ["Backend", "Artificial Intelligence"],
     issueDate: "Nov 2021",
     code: "MEPJLMWGQZ3V",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-rose-500 to-red-600", // Rose-Red untuk Java
     description:
       "A comprehensive Java programming course covering core language fundamentals, control flow, collections, object-oriented programming principles, commonly used Java classes, and hands-on problem solving through practical case studies.",
     skills: [
@@ -291,7 +291,7 @@ export const achievements: Achievement[] = [
     category: ["Frontend", "Backend"],
     issueDate: "Nov 2021",
     code: "72ZDEMQEQPYW",
-    bgColor: "from-emerald-400 to-teal-600",
+    bgColor: "from-violet-500 to-purple-600", // Violet-Purple untuk SOLID
     description:
       "An in-depth object-oriented programming course covering OOP pillars, object relationships, software design principles, and the SOLID principles for building maintainable and scalable applications.",
     skills: [

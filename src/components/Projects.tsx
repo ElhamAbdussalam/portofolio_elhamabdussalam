@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Search,
   Folder,
@@ -13,6 +14,7 @@ import {
   X,
   Layers,
   Sparkles,
+  Globe,
 } from "lucide-react";
 import { projects, Project } from "@/data/projects";
 
@@ -22,7 +24,6 @@ export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    // Trigger animation after component mounts
     setIsVisible(true);
   }, []);
 
@@ -35,20 +36,6 @@ export default function ProjectsSection() {
       );
     return matchesSearch;
   });
-
-  const handleShare = (project: Project) => {
-    if (navigator.share) {
-      navigator.share({
-        title: project.title,
-        text: `Check out my project: ${project.title}`,
-        url: project.demoUrl || project.githubUrl || window.location.href,
-      });
-    } else {
-      const url = project.demoUrl || project.githubUrl || window.location.href;
-      navigator.clipboard.writeText(url);
-      alert("Link copied to clipboard!");
-    }
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -87,10 +74,14 @@ export default function ProjectsSection() {
               : "opacity-0 -translate-y-10"
           }`}
         >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm mb-4">
+            <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+            <span className="text-sm font-semibold text-blue-400">My Work</span>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Projects
           </h2>
-          <p className="text-slate-300 text-lg mb-4">
+          <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-4">
             A showcase of my recent work and side projects that demonstrate my
             skills and passion for development.
           </p>
@@ -113,15 +104,27 @@ export default function ProjectsSection() {
               className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-lg shadow-black/20"
             />
           </div>
-          {searchQuery && (
-            <p className="text-center text-slate-400 mt-4">
-              Found{" "}
-              <span className="text-blue-400 font-bold">
-                {filteredProjects.length}
-              </span>{" "}
-              {filteredProjects.length === 1 ? "project" : "projects"}
+          <div className="text-center mt-4">
+            <p className="text-slate-400">
+              {searchQuery ? (
+                <>
+                  Found{" "}
+                  <span className="text-blue-400 font-bold">
+                    {filteredProjects.length}
+                  </span>{" "}
+                  {filteredProjects.length === 1 ? "project" : "projects"}
+                </>
+              ) : (
+                <>
+                  Total{" "}
+                  <span className="text-blue-400 font-bold">
+                    {projects.length}
+                  </span>{" "}
+                  {projects.length === 1 ? "project" : "projects"}
+                </>
+              )}
             </p>
-          )}
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -135,10 +138,33 @@ export default function ProjectsSection() {
               }}
             >
               {/* Project Image */}
-              <div className="relative h-48 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Folder className="w-20 h-20 text-blue-400/30" />
+              <div className="relative h-48 bg-slate-800 overflow-hidden">
+                {project.image ? (
+                  <>
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+                  </>
+                ) : (
+                  <div className="h-full bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                    <Folder className="w-20 h-20 text-blue-400/30" />
+                  </div>
+                )}
+
+                {/* Hover overlay with buttons */}
+                <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 text-sm"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    View Details
+                  </button>
                 </div>
 
                 {/* Status Badge */}
@@ -156,34 +182,6 @@ export default function ProjectsSection() {
                   <div className="px-3 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-sm text-slate-200 text-xs font-semibold border border-slate-700">
                     {project.year}
                   </div>
-                </div>
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-2">
-                  {project.demoUrl && (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 bg-white text-slate-950 rounded-lg font-bold hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-500 hover:text-white transition-all flex items-center gap-2"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Demo
-                    </a>
-                  )}
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 bg-slate-800 text-white rounded-lg font-bold hover:bg-slate-700 transition-all flex items-center gap-2"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
                 </div>
               </div>
 
@@ -251,9 +249,24 @@ export default function ProjectsSection() {
       {selectedProject && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-scaleIn">
-            {/* Modal Header */}
-            <div className="relative h-64 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent" />
+            {/* Modal Header with Project Image */}
+            <div className="relative h-80 overflow-hidden bg-slate-800">
+              {selectedProject.image ? (
+                <>
+                  <Image
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Dark overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-slate-900/30" />
+                </>
+              ) : (
+                <div className="h-full bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                  <Folder className="w-32 h-32 text-blue-400/30" />
+                </div>
+              )}
 
               {/* Close Button */}
               <button
@@ -263,67 +276,27 @@ export default function ProjectsSection() {
                 <X className="w-5 h-5 text-white" />
               </button>
 
-              {/* Project Header */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center px-6">
-                  <div
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${getStatusColor(selectedProject.status)} text-white text-sm font-bold shadow-lg mb-4`}
-                  >
-                    {getStatusIcon(selectedProject.status)}
-                    {selectedProject.status}
-                  </div>
-                  <h2 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
-                    {selectedProject.title}
-                  </h2>
-                  <p className="text-blue-300 text-lg font-semibold">
-                    {selectedProject.category} • {selectedProject.year}
-                  </p>
+              {/* Project Header Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900 via-slate-900/90 to-transparent">
+                <div
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${getStatusColor(selectedProject.status)} text-white text-sm font-bold shadow-lg mb-3`}
+                >
+                  {getStatusIcon(selectedProject.status)}
+                  {selectedProject.status}
                 </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  {selectedProject.title}
+                </h2>
+                <p className="text-blue-300 text-lg">
+                  {selectedProject.category} • {selectedProject.year}
+                </p>
               </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute top-0 left-0 w-40 h-40 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
-              <div className="absolute bottom-0 right-0 w-60 h-60 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3" />
             </div>
 
             {/* Modal Content */}
-            <div className="p-8 overflow-y-auto max-h-[calc(90vh-16rem)]">
-              {/* Action Buttons */}
-              <div className="flex gap-3 mb-6 pb-6 border-b border-slate-800">
-                {selectedProject.demoUrl && (
-                  <a
-                    href={selectedProject.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                    View Live Demo
-                  </a>
-                )}
-                {selectedProject.githubUrl && (
-                  <a
-                    href={selectedProject.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all text-center flex items-center justify-center gap-2 border border-slate-700"
-                  >
-                    <Github className="w-5 h-5" />
-                    View Code
-                  </a>
-                )}
-                <button
-                  onClick={() => handleShare(selectedProject)}
-                  className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all border border-slate-700"
-                  title="Share"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                </button>
-              </div>
-
+            <div className="p-8 overflow-y-auto max-h-[calc(90vh-20rem)]">
               {/* Info Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* Role */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Users className="w-5 h-5 text-blue-400" />
@@ -334,7 +307,6 @@ export default function ProjectsSection() {
                   </p>
                 </div>
 
-                {/* Year */}
                 <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
                   <div className="flex items-center gap-3 mb-2">
                     <Calendar className="w-5 h-5 text-blue-400" />

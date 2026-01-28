@@ -6,8 +6,6 @@ export interface Project {
   image: string;
   category: string;
   technologies: string[];
-  demoUrl?: string;
-  githubUrl?: string;
   status: "Completed" | "In Progress" | "Maintenance";
   year: string;
   features: string[];
@@ -22,7 +20,7 @@ export const projects: Project[] = [
       "Full-stack e-commerce platform with payment integration and real-time inventory management.",
     longDescription:
       "A comprehensive e-commerce solution built with modern technologies. Features include user authentication, product management, shopping cart, payment gateway integration with Stripe, order tracking, and admin dashboard for managing inventory and orders. The platform is optimized for performance and SEO.",
-    image: "/sertifikat-9.png",
+    image: "/sertifikat-1.png",
     category: "Full Stack",
     technologies: [
       "Next.js",
@@ -32,8 +30,6 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Stripe",
     ],
-    demoUrl: "https://demo.example.com",
-    githubUrl: "https://github.com/username/project",
     status: "Completed",
     year: "2025",
     features: [
@@ -42,7 +38,9 @@ export const projects: Project[] = [
       "Shopping cart with real-time updates",
       "Payment integration with Stripe",
       "Order tracking system",
-      "Admin dashboard",
+      "Admin dashboard for inventory management",
+      "Email notifications for orders",
+      "Responsive design for all devices",
     ],
     role: "Full Stack Developer",
   },

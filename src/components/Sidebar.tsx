@@ -46,12 +46,6 @@ export default function Sidebar() {
       path: "/achievements",
     },
     { id: "projects", label: "Projects", icon: FolderGit2, path: "/projects" },
-    {
-      id: "chatroom",
-      label: "Chartroom",
-      icon: MessageSquare,
-      path: "/chatroom",
-    },
     { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
   ];
 

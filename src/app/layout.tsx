@@ -7,7 +7,7 @@ import Sidebar from "@/components/Sidebar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Muhammad Elham Abdussalam - Full Stack Developer",
+  title: "M Elham Abdussalam - Portfolio",
   description:
     "Portfolio of Muhammad Elham Abdussalam, a passionate Full Stack Developer specializing in modern web technologies.",
 };

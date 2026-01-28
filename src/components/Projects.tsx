@@ -6,15 +6,12 @@ import {
   Search,
   Folder,
   Code,
-  ExternalLink,
-  Github,
   Calendar,
   Users,
   CheckCircle,
   X,
   Layers,
   Sparkles,
-  Globe,
 } from "lucide-react";
 import { projects, Project } from "@/data/projects";
 
@@ -137,7 +134,7 @@ export default function ProjectsSection() {
                 <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
                   <button
                     onClick={() => setSelectedProject(project)}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 text-sm"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <Sparkles className="w-4 h-4" />
                     View Details
@@ -199,7 +196,7 @@ export default function ProjectsSection() {
                 {/* View Details Button */}
                 <button
                   onClick={() => setSelectedProject(project)}
-                  className="w-full py-2 bg-slate-700/50 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-600 text-slate-300 hover:text-white rounded-lg font-medium transition-all text-sm"
+                  className="w-full py-2 bg-slate-700/50 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-600 text-slate-300 hover:text-white rounded-lg font-medium transition-all text-sm cursor-pointer"
                 >
                   View Details
                 </button>
@@ -248,7 +245,7 @@ export default function ProjectsSection() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 border border-white/20"
+                className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 border border-white/20 cursor-pointer"
               >
                 <X className="w-5 h-5 text-white" />
               </button>

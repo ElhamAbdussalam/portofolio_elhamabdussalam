@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import Divider from "./ui/Divider";
 import { educations } from "@/data/education";
 import EducationCard from "./EducationCard";
-import { Briefcase, GraduationCap, Calendar } from "lucide-react";
 
 export default function Career() {
   return (

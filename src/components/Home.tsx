@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  MapPin,
-  Github,
-  Linkedin,
-  Mail,
-  Download,
-  Sparkles,
-  Code2,
-  Rocket,
-} from "lucide-react";
+import { MapPin, Sparkles, Code2, Rocket } from "lucide-react";
 import { useEffect, useState } from "react";
 import ScrambledText from "./ui/ScrambledText";
 

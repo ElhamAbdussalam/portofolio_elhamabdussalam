@@ -7,11 +7,8 @@ import {
   MapPin,
   Github,
   Linkedin,
-  Twitter,
   Instagram,
-  User,
   Sparkles,
-  Clock,
   Globe,
   Code,
   Palette,
@@ -19,7 +16,6 @@ import {
   Database,
   Zap,
   Calendar,
-  CheckCircle,
 } from "lucide-react";
 
 export default function Contact() {
@@ -107,16 +103,6 @@ export default function Contact() {
       color: "blue",
     },
   ];
-
-  // const availability = [
-  //   { day: "Monday", available: true },
-  //   { day: "Tuesday", available: true },
-  //   { day: "Wednesday", available: true },
-  //   { day: "Thursday", available: true },
-  //   { day: "Friday", available: true },
-  //   { day: "Saturday", available: false },
-  //   { day: "Sunday", available: false },
-  // ];
 
   const getColorClasses = (color: string) => {
     const colors = {

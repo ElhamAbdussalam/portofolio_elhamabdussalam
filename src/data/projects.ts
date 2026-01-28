@@ -20,7 +20,7 @@ export const projects: Project[] = [
       "Personal portfolio website showcasing my profile, skills, experience, and projects as a Frontend Developer with a focus on modern, scalable, and performance-driven web applications.",
     longDescription:
       "My personal portfolio website that represents my journey as a Frontend Developer, highlighting my skills, experiences, and featured projects. This website is designed with a strong focus on scalability, performance, and clean architecture to deliver an engaging and user-friendly experience. Built using modern web technologies such as React, Next.js, and TypeScript, the portfolio emphasizes responsive design, smooth animations, and intuitive navigation. It serves as a professional showcase of my expertise in crafting performance-driven web applications that solve real-world problems and deliver meaningful user experiences ✨.",
-    image: "/projects-1.png",
+    image: "/projects-1.webp",
     category: "Frontend Developer",
     technologies: [
       "Next.js",
@@ -65,7 +65,7 @@ export const projects: Project[] = [
       "E-TICKET is a modern event ticketing platform that enables seamless event discovery, secure online ticket purchases, and digital QR code ticket management with real-time analytics.",
     longDescription:
       "**E-TICKET** is a modern digital event ticketing platform designed to streamline event discovery, ticket purchasing, and attendance management in one seamless experience. Users can easily browse and search for events, complete fast and secure ticket bookings with integrated Midtrans payments, and receive QR code–based e-tickets for reliable digital entry. For event organizers, the platform offers a real-time dashboard to track ticket sales and attendance efficiently, helping ensure smooth event operations. Built with scalability, security, and performance in mind, E-TICKET delivers a reliable solution for managing events of any size. 🚀",
-    image: "/projects-2.png",
+    image: "/projects-2.webp",
     category: "Full Stack Developer",
     technologies: [
       "Next.js",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
       "A web-based system that helps restaurants manage orders, menu items, and sales performance efficiently through a centralized dashboard.",
     longDescription:
       "The Food Ordering Management System is a web-based solution designed to streamline restaurant operations by centralizing order management, menu administration, and sales monitoring. The system allows staff to create and manage customer orders, track order status in real time, and maintain menu data with ease. Through an intuitive dashboard and detailed reports, restaurant owners can analyze sales performance and make informed, data-driven decisions. Built to improve efficiency and reduce operational friction, this system supports faster workflows and better control over daily restaurant activities.",
-    image: "/projects-3.png",
+    image: "/projects-3.webp",
     category: "Full Stack Developer",
     technologies: [
       "Next.js",
@@ -146,7 +146,7 @@ export const projects: Project[] = [
       "School Management System is a web-based platform that helps schools manage academic operations, student data, attendance, and payments efficiently through a centralized, real-time dashboard.",
     longDescription:
       "The School Management System is a web-based solution designed to streamline and centralize school administrative operations in real time. The system enables schools to monitor student distribution per class, track weekly attendance recaps, and analyze monthly payment statistics with ease. It also provides complete management of students, teachers, and class data through an intuitive interface. With centralized academic reports and real-time insights, this system helps schools improve operational efficiency, reduce administrative overhead, and make faster, data-driven decisions to support better academic management. 📊🎓",
-    image: "/projects-4.png",
+    image: "/projects-4.webp",
     category: "Full Stack Developer",
     technologies: [
       "Next.js",
@@ -193,7 +193,7 @@ export const projects: Project[] = [
       "A web-based inventory management system that helps businesses manage stock, monitor orders, track user activities, and analyze revenue through a centralized real-time dashboard.",
     longDescription:
       "Inventory Management System is a web-based platform designed to streamline and centralize inventory and business operations in real time. The system enables efficient item and stock management, real-time order tracking, user activity monitoring, and revenue analysis through an intuitive dashboard. With quick access to reports, system settings, and performance insights, businesses can maintain accurate data, optimize workflows, and make faster, data-driven decisions to improve overall operational efficiency. 🚀",
-    image: "/projects-5.png",
+    image: "/projects-5.webp",
     category: "Full Stack Developer",
     technologies: [
       "Laravel",
@@ -232,7 +232,7 @@ export const projects: Project[] = [
       "DESAKU is a web-based village information system that centralizes administrative services, citizen data, and reporting to improve transparency and public service efficiency.",
     longDescription:
       "DESAKU is a web-based Village Information System built to streamline and digitalize village administrative processes. The platform centralizes population data, public services, and reporting into a single integrated system, enabling village officials to manage data efficiently and transparently. With features such as a real-time dashboard, integrated citizen records, online complaint submissions, digital account requests, and automated reporting, DESAKU supports village digital transformation and improves the quality and efficiency of public services. 📊",
-    image: "/projects-6.png",
+    image: "/projects-6.webp",
     category: "Full Stack Developer",
     technologies: [
       "Laravel",
@@ -269,7 +269,7 @@ export const projects: Project[] = [
       "A RESTful Bookshelf API with comprehensive Postman test collections to validate endpoints, response structure, and business logic for book management features.",
     longDescription:
       "This project is a RESTful Bookshelf API designed to manage book data efficiently, including creating, retrieving, updating, and deleting books with reading and finished status filters. The API is thoroughly tested using Postman, featuring structured request collections and automated test scripts to validate HTTP status codes, response headers, data types, and business rules. Each endpoint is verified to ensure consistent JSON responses, correct properties, and accurate filtering logic. This project demonstrates strong backend fundamentals, API design best practices, and quality assurance through systematic API testing. 📚",
-    image: "/projects-7.png",
+    image: "/projects-7.webp",
     category: "Backend Developer",
     technologies: [
       "Laravel",
@@ -306,7 +306,7 @@ export const projects: Project[] = [
       "A modern and responsive personal portfolio showcasing my journey as a Front End Developer, featuring selected projects, skills, and experience with a clean and elegant UI.",
     longDescription:
       "Portofolio V2 is the second iteration of my personal portfolio website, built to showcase my growth as a Front End Developer through a clean, modern, and responsive interface. This version focuses on delivering a smooth user experience, well-structured layouts, and visually consistent design while highlighting selected projects, technical skills, and professional background. Developed using modern frontend technologies, this portfolio reflects my commitment to writing clean, maintainable code and continuously improving my skills as I explore new tools, patterns, and best practices in frontend development. 🔥",
-    image: "/projects-8.png",
+    image: "/projects-8.webp",
     category: "Frontend Developer",
     technologies: [
       "React",

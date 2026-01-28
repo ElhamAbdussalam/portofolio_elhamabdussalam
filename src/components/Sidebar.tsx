@@ -13,17 +13,11 @@ import {
   Linkedin,
   Instagram,
   Briefcase,
-  MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import TextType from "./ui/TextType";
 import { usePathname, useRouter } from "next/navigation";
-
-interface SidebarProps {
-  activeSection: string;
-  onNavigate: (section: string) => void;
-}
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -135,7 +129,7 @@ export default function Sidebar() {
             >
               <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 ring-2 ring-slate-900">
                 <Image
-                  src="/profile.png"
+                  src="/profile.webp"
                   alt="Avatar"
                   width={112}
                   height={112}
@@ -232,7 +226,7 @@ export default function Sidebar() {
                     }}
                     className={`
               group relative w-full flex items-center gap-4 px-5 h-12 rounded-xl
-              text-sm font-medium transition-all duration-300 ease-out
+              text-sm font-medium transition-all duration-300 ease-out cursor-pointer
               ${
                 isActive
                   ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-[1.02]"

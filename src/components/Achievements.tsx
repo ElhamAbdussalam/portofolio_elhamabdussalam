@@ -16,7 +16,6 @@ import {
   Building2,
   Hash,
   CheckCircle,
-  Sparkles,
 } from "lucide-react";
 import { achievements, Achievement } from "@/data/achievements";
 
@@ -158,7 +157,7 @@ export default function AchievementsSection() {
                 <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                   <button
                     onClick={() => setSelectedAchievement(achievement)}
-                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg cursor-pointer"
                   >
                     View Details →
                   </button>
@@ -248,7 +247,7 @@ export default function AchievementsSection() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedAchievement(null)}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 border border-white/20"
+                className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 border border-white/20 cursor-pointer"
               >
                 <X className="w-5 h-5 text-white" />
               </button>
@@ -278,7 +277,7 @@ export default function AchievementsSection() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleShare(selectedAchievement)}
-                    className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+                    className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors cursor-pointer"
                     title="Share"
                   >
                     <Share2 className="w-5 h-5 text-slate-300" />
@@ -287,7 +286,7 @@ export default function AchievementsSection() {
                     href={selectedAchievement.credentialUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+                    className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors cursor-pointer"
                     title="View Certificate"
                   >
                     <ExternalLink className="w-5 h-5 text-slate-300" />
@@ -299,7 +298,7 @@ export default function AchievementsSection() {
                       className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors"
                       title="Download"
                     >
-                      <Download className="w-5 h-5 text-white" />
+                      <Download className="w-5 h-5 text-white cursor-pointer" />
                     </a>
                   )}
                 </div>

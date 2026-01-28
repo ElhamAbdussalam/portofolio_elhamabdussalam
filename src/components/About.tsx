@@ -1,16 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Code2,
-  Rocket,
-  Users,
-  Target,
-  Award,
-  Sparkles,
-  TrendingUp,
-  Heart,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 import TiltedCard from "./ui/TiltedCard";
 import ScrambledText from "./ui/ScrambledText";
 import Divider from "./ui/Divider";
@@ -386,7 +377,7 @@ export default function About() {
 
                 <div className="relative grayscale hover:grayscale-0 transition duration-500">
                   <TiltedCard
-                    imageSrc="/profile.png"
+                    imageSrc="/profile.webp"
                     containerHeight="320px"
                     containerWidth="320px"
                     imageHeight="320px"

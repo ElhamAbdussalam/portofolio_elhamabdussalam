@@ -40,6 +40,7 @@ export default function Sidebar() {
       path: "/achievements",
     },
     { id: "projects", label: "Projects", icon: FolderGit2, path: "/projects" },
+    { id: "chat", label: "Chat Room", icon: FolderGit2, path: "/chat" },
     { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
   ];
 
@@ -208,8 +209,8 @@ export default function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 mt-3">
-          <ul className="space-y-2">
+        <nav className="flex-1 mt-3 mb-3 ">
+          <ul className="space-y-1">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = pathname === item.path;

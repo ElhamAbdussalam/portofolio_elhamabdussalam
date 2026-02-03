@@ -2,68 +2,64 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { supabase } from "@/lib/supabase"; // Import supabase
 
 // Types
 type ChatMessage = {
   id: string;
-  user_id: string;
-  user_name: string;
-  user_image?: string;
+  userId: string;
+  userName: string;
+  userImage?: string;
   message: string;
-  created_at: string;
+  timestamp: Date;
   provider: string;
 };
 
+// Demo messages
+const demoMessages: ChatMessage[] = [
+  {
+    id: "1",
+    userId: "user-1",
+    userName: "Frenzy Kuzo",
+    message: "Keren banget, tampilannya rapi dan modern 🔥",
+    timestamp: new Date("2026-01-22T19:18:00"),
+    provider: "google",
+  },
+  {
+    id: "2",
+    userId: "user-2",
+    userName: "VIP M",
+    message: "Halo! Project ini menarik banget 👋",
+    timestamp: new Date("2026-01-26T23:39:00"),
+    provider: "github",
+  },
+  {
+    id: "3",
+    userId: "user-3",
+    userName: "Anonymous User",
+    message:
+      "Bagian resume di homepage terlihat menarik. Mungkin bisa diperjelas lagi agar lebih mudah dipahami.",
+    timestamp: new Date("2026-01-27T01:10:00"),
+    provider: "google",
+  },
+  {
+    id: "4",
+    userId: "user-4",
+    userName: "User Marquardt",
+    message:
+      "Keren banget! Project-nya terlihat aktif dikembangkan dan terawat dengan baik.",
+    timestamp: new Date("2026-01-27T05:51:00"),
+    provider: "github",
+  },
+];
+
 export default function ChatRoomSection() {
+  // NextAuth session - real authentication
   const { data: session, status } = useSession();
 
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(demoMessages);
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Fetch messages from Supabase on mount
-  useEffect(() => {
-    fetchMessages();
-
-    // Subscribe to realtime updates
-    const channel = supabase
-      .channel("chat_messages_channel")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "chat_messages",
-        },
-        (payload) => {
-          setMessages((prev) => [...prev, payload.new as ChatMessage]);
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  // Fetch messages from database
-  const fetchMessages = async () => {
-    setIsLoading(true);
-    const { data, error } = await supabase
-      .from("chat_messages")
-      .select("*")
-      .order("created_at", { ascending: true });
-
-    if (error) {
-      console.error("Error fetching messages:", error);
-    } else {
-      setMessages(data || []);
-    }
-    setIsLoading(false);
-  };
 
   // Auto scroll to bottom when new messages arrive
   useEffect(() => {
@@ -72,12 +68,12 @@ export default function ChatRoomSection() {
     }
   }, [messages]);
 
-  // Handle Google login
+  // Handle Google login - real authentication
   const handleGoogleLogin = () => {
     signIn("google", { callbackUrl: window.location.href });
   };
 
-  // Handle GitHub login
+  // Handle GitHub login - real authentication
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: window.location.href });
   };
@@ -88,38 +84,32 @@ export default function ChatRoomSection() {
   };
 
   // Handle send message
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !session?.user) return;
 
     setIsSending(true);
 
-    const messageData = {
-      user_id: session.user.id || session.user.email || "unknown",
-      user_name: session.user.name || "Anonymous",
-      user_image: session.user.image || null,
+    const msg: ChatMessage = {
+      id: Date.now().toString(),
+      userId: session.user.id || session.user.email || "unknown",
+      userName: session.user.name || "Anonymous",
+      userImage: session.user.image || undefined,
       message: newMessage.trim(),
+      timestamp: new Date(),
       provider: session.user.email?.includes("gmail") ? "google" : "github",
     };
 
-    // Insert to Supabase
-    const { error } = await supabase
-      .from("chat_messages")
-      .insert([messageData]);
-
-    if (error) {
-      console.error("Error sending message:", error);
-      alert("Failed to send message. Please try again.");
-    } else {
+    // In real app, send to database here (Supabase/Firebase)
+    setTimeout(() => {
+      setMessages((prev) => [...prev, msg]);
       setNewMessage("");
-    }
-
-    setIsSending(false);
+      setIsSending(false);
+    }, 500);
   };
 
   // Format date time
-  const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString);
+  const formatDateTime = (date: Date) => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
@@ -151,7 +141,7 @@ export default function ChatRoomSection() {
   };
 
   // Show loading state while checking authentication
-  if (status === "loading" || isLoading) {
+  if (status === "loading") {
     return (
       <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
@@ -234,13 +224,14 @@ export default function ChatRoomSection() {
                 <div key={msg.id} className="flex gap-4 animate-fadeIn">
                   {/* Avatar */}
                   <div className="flex-shrink-0">
-                    {msg.user_image ? (
+                    {msg.userImage ? (
                       <img
-                        src={msg.user_image}
-                        alt={msg.user_name}
+                        src={msg.userImage}
+                        alt={msg.userName}
                         className="w-10 h-10 rounded-full ring-2 ring-slate-700 object-cover"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
+                          // Fallback jika image gagal load
                           e.currentTarget.style.display = "none";
                           e.currentTarget.nextElementSibling?.classList.remove(
                             "hidden",
@@ -249,9 +240,9 @@ export default function ChatRoomSection() {
                       />
                     ) : null}
                     <div
-                      className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(msg.user_id)} flex items-center justify-center text-white font-bold ${msg.user_image ? "hidden" : ""}`}
+                      className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(msg.userId)} flex items-center justify-center text-white font-bold ${msg.userImage ? "hidden" : ""}`}
                     >
-                      {getInitials(msg.user_name)}
+                      {getInitials(msg.userName)}
                     </div>
                   </div>
 
@@ -259,10 +250,10 @@ export default function ChatRoomSection() {
                   <div className="flex-1">
                     <div className="flex items-baseline gap-3 mb-2">
                       <span className="font-semibold text-white">
-                        {msg.user_name}
+                        {msg.userName}
                       </span>
                       <span className="text-xs text-slate-500">
-                        {formatDateTime(msg.created_at)}
+                        {formatDateTime(msg.timestamp)}
                       </span>
                     </div>
                     <div className="bg-slate-800 border border-slate-700/50 rounded-lg px-4 py-3 inline-block max-w-full break-words">

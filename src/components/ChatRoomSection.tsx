@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { supabase } from "@/lib/supabase";
 
 // Types
 type ChatMessage = {
@@ -63,10 +64,34 @@ export default function ChatRoomSection() {
 
   // Auto scroll to bottom when new messages arrive
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
+    const fetchMessages = async () => {
+      const { data, error } = await supabase
+        .from("messages")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        console.error("❌ Fetch messages error:", error);
+        return;
+      }
+
+      if (data) {
+        setMessages(
+          data.map((m) => ({
+            id: m.id,
+            userId: m.user_id,
+            userName: m.user_name,
+            userImage: m.user_image ?? undefined,
+            message: m.message,
+            timestamp: new Date(m.created_at),
+            provider: m.provider,
+          })),
+        );
+      }
+    };
+
+    fetchMessages();
+  }, []);
 
   // Handle Google login - real authentication
   const handleGoogleLogin = () => {
@@ -84,28 +109,51 @@ export default function ChatRoomSection() {
   };
 
   // Handle send message
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !session?.user) return;
 
     setIsSending(true);
 
-    const msg: ChatMessage = {
-      id: Date.now().toString(),
-      userId: session.user.id || session.user.email || "unknown",
-      userName: session.user.name || "Anonymous",
-      userImage: session.user.image || undefined,
+    const payload = {
+      user_id: session.user.email ?? "unknown",
+      user_name: session.user.name ?? "Anonymous",
+      user_image: session.user.image ?? null,
       message: newMessage.trim(),
-      timestamp: new Date(),
       provider: session.user.email?.includes("gmail") ? "google" : "github",
     };
 
-    // In real app, send to database here (Supabase/Firebase)
-    setTimeout(() => {
-      setMessages((prev) => [...prev, msg]);
-      setNewMessage("");
+    console.log("Sending payload to Supabase:", payload);
+
+    const { data, error } = await supabase
+      .from("messages")
+      .insert(payload)
+      .select();
+
+    if (error) {
+      console.error("❌ Supabase INSERT error:", error);
       setIsSending(false);
-    }, 500);
+      return;
+    }
+
+    console.log("✅ Supabase INSERT success:", data);
+
+    // Optional: langsung tampilkan ke UI
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: data[0].id,
+        userId: payload.user_id,
+        userName: payload.user_name,
+        userImage: payload.user_image ?? undefined,
+        message: payload.message,
+        timestamp: new Date(data[0].created_at),
+        provider: payload.provider,
+      },
+    ]);
+
+    setNewMessage("");
+    setIsSending(false);
   };
 
   // Format date time

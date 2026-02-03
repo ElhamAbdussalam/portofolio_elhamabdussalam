@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { supabase } from "@/lib/supabase";
 
-// Types
 type ChatMessage = {
   id: string;
   userId: string;
@@ -15,54 +14,13 @@ type ChatMessage = {
   provider: string;
 };
 
-// Demo messages
-const demoMessages: ChatMessage[] = [
-  {
-    id: "1",
-    userId: "user-1",
-    userName: "Frenzy Kuzo",
-    message: "Keren banget, tampilannya rapi dan modern 🔥",
-    timestamp: new Date("2026-01-22T19:18:00"),
-    provider: "google",
-  },
-  {
-    id: "2",
-    userId: "user-2",
-    userName: "VIP M",
-    message: "Halo! Project ini menarik banget 👋",
-    timestamp: new Date("2026-01-26T23:39:00"),
-    provider: "github",
-  },
-  {
-    id: "3",
-    userId: "user-3",
-    userName: "Anonymous User",
-    message:
-      "Bagian resume di homepage terlihat menarik. Mungkin bisa diperjelas lagi agar lebih mudah dipahami.",
-    timestamp: new Date("2026-01-27T01:10:00"),
-    provider: "google",
-  },
-  {
-    id: "4",
-    userId: "user-4",
-    userName: "User Marquardt",
-    message:
-      "Keren banget! Project-nya terlihat aktif dikembangkan dan terawat dengan baik.",
-    timestamp: new Date("2026-01-27T05:51:00"),
-    provider: "github",
-  },
-];
-
 export default function ChatRoomSection() {
-  // NextAuth session - real authentication
   const { data: session, status } = useSession();
-
-  const [messages, setMessages] = useState<ChatMessage[]>(demoMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll to bottom when new messages arrive
   useEffect(() => {
     const fetchMessages = async () => {
       const { data, error } = await supabase
@@ -93,22 +51,18 @@ export default function ChatRoomSection() {
     fetchMessages();
   }, []);
 
-  // Handle Google login - real authentication
   const handleGoogleLogin = () => {
     signIn("google", { callbackUrl: window.location.href });
   };
 
-  // Handle GitHub login - real authentication
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: window.location.href });
   };
 
-  // Handle logout
   const handleLogout = () => {
     signOut();
   };
 
-  // Handle send message
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !session?.user) return;
@@ -123,8 +77,6 @@ export default function ChatRoomSection() {
       provider: session.user.email?.includes("gmail") ? "google" : "github",
     };
 
-    console.log("Sending payload to Supabase:", payload);
-
     const { data, error } = await supabase
       .from("messages")
       .insert(payload)
@@ -136,9 +88,6 @@ export default function ChatRoomSection() {
       return;
     }
 
-    console.log("✅ Supabase INSERT success:", data);
-
-    // Optional: langsung tampilkan ke UI
     setMessages((prev) => [
       ...prev,
       {
@@ -156,7 +105,6 @@ export default function ChatRoomSection() {
     setIsSending(false);
   };
 
-  // Format date time
   const formatDateTime = (date: Date) => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -166,12 +114,10 @@ export default function ChatRoomSection() {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
-  // Get initials from name
   const getInitials = (name: string) => {
     return name.charAt(0).toUpperCase();
   };
 
-  // Get avatar color based on userId
   const getAvatarColor = (userId: string) => {
     const colors = [
       "from-purple-500 to-purple-600",
@@ -188,7 +134,10 @@ export default function ChatRoomSection() {
     return colors[hash % colors.length];
   };
 
-  // Show loading state while checking authentication
+  const isMyMessage = (userId: string) => {
+    return session?.user?.email === userId;
+  };
+
   if (status === "loading") {
     return (
       <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
@@ -201,15 +150,10 @@ export default function ChatRoomSection() {
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 py-20 px-4">
+    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 py-10 px-4 md:px-10">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-block px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
-            <span className="text-sm font-semibold text-blue-400">
-              💬 Community Chat
-            </span>
-          </div>
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             Chat Room
           </h1>
@@ -220,9 +164,9 @@ export default function ChatRoomSection() {
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mt-6"></div>
         </div>
 
-        {/* User Info Bar (if logged in) */}
+        {/* User Info Bar */}
         {session?.user && (
-          <div className="mb-6 bg-slate-800/50 border border-slate-700 rounded-xl p-4 flex items-center justify-between animate-slideDown">
+          <div className="mb-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-4 flex items-center justify-between animate-slideDown shadow-lg">
             <div className="flex items-center gap-3">
               {session.user.image ? (
                 <img
@@ -254,9 +198,9 @@ export default function ChatRoomSection() {
         )}
 
         {/* Chat Container */}
-        <div className="bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
           {/* Messages */}
-          <div className="p-6 space-y-6 min-h-[500px] max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
+          <div className="p-6 space-y-4 min-h-[500px] max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-20">
                 <div className="text-6xl mb-4">💬</div>
@@ -268,55 +212,109 @@ export default function ChatRoomSection() {
                 </p>
               </div>
             ) : (
-              messages.map((msg) => (
-                <div key={msg.id} className="flex gap-4 animate-fadeIn">
-                  {/* Avatar */}
-                  <div className="flex-shrink-0">
-                    {msg.userImage ? (
-                      <img
-                        src={msg.userImage}
-                        alt={msg.userName}
-                        className="w-10 h-10 rounded-full ring-2 ring-slate-700 object-cover"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          // Fallback jika image gagal load
-                          e.currentTarget.style.display = "none";
-                          e.currentTarget.nextElementSibling?.classList.remove(
-                            "hidden",
-                          );
-                        }}
-                      />
-                    ) : null}
-                    <div
-                      className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(msg.userId)} flex items-center justify-center text-white font-bold ${msg.userImage ? "hidden" : ""}`}
-                    >
-                      {getInitials(msg.userName)}
+              messages.map((msg) => {
+                const isMine = isMyMessage(msg.userId);
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex gap-3 animate-fadeIn group ${isMine ? "flex-row-reverse" : ""}`}
+                  >
+                    {/* Avatar */}
+                    <div className="flex-shrink-0">
+                      {msg.userImage ? (
+                        <img
+                          src={msg.userImage}
+                          alt={msg.userName}
+                          className="w-11 h-11 rounded-full ring-2 ring-slate-700 object-cover transition-all group-hover:ring-blue-500"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                            e.currentTarget.nextElementSibling?.classList.remove(
+                              "hidden",
+                            );
+                          }}
+                        />
+                      ) : null}
+                      <div
+                        className={`w-11 h-11 rounded-full bg-gradient-to-br ${getAvatarColor(msg.userId)} flex items-center justify-center text-white font-bold transition-all group-hover:scale-110 ${msg.userImage ? "hidden" : ""}`}
+                      >
+                        {getInitials(msg.userName)}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Message */}
-                  <div className="flex-1">
-                    <div className="flex items-baseline gap-3 mb-2">
-                      <span className="font-semibold text-white">
-                        {msg.userName}
-                      </span>
-                      <span className="text-xs text-slate-500">
-                        {formatDateTime(msg.timestamp)}
-                      </span>
-                    </div>
-                    <div className="bg-slate-800 border border-slate-700/50 rounded-lg px-4 py-3 inline-block max-w-full break-words">
-                      <p className="text-slate-200">{msg.message}</p>
+                    {/* Message Content */}
+                    <div
+                      className={`flex-1 max-w-[75%] ${isMine ? "flex flex-col items-end" : ""}`}
+                    >
+                      {/* Header */}
+                      <div
+                        className={`flex items-center gap-2 mb-1.5 ${isMine ? "flex-row-reverse" : ""}`}
+                      >
+                        <span className="font-semibold text-white text-sm">
+                          {isMine ? "You" : msg.userName}
+                        </span>
+
+                        {/* Provider Badge */}
+                        <span
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                            msg.provider === "google"
+                              ? "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                              : "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                          }`}
+                        >
+                          {msg.provider === "google" ? "Google" : "GitHub"}
+                        </span>
+
+                        <span className="text-[11px] text-slate-500">
+                          {formatDateTime(msg.timestamp)}
+                        </span>
+                      </div>
+
+                      {/* Message Bubble */}
+                      <div
+                        className={`relative px-4 py-3 rounded-2xl transition-all group-hover:shadow-lg ${
+                          isMine
+                            ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-tr-sm"
+                            : "bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 text-slate-100 rounded-tl-sm"
+                        }`}
+                      >
+                        <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
+                          {msg.message}
+                        </p>
+
+                        {/* Decorative corner */}
+                        <div
+                          className={`absolute -bottom-0 w-3 h-3 ${
+                            isMine
+                              ? "-right-0 bg-purple-600"
+                              : "-left-0 bg-slate-800/80 border-l border-b border-slate-700/50"
+                          }`}
+                          style={{
+                            clipPath: isMine
+                              ? "polygon(100% 0, 0 0, 100% 100%)"
+                              : "polygon(0 0, 100% 0, 0 100%)",
+                          }}
+                        ></div>
+                      </div>
+
+                      {/* Reaction Placeholder (for future enhancement) */}
+                      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div
+                          className={`flex gap-1 ${isMine ? "justify-end" : ""}`}
+                        >
+                          {/* You can add emoji reactions here later */}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
             <div ref={messagesEndRef}></div>
           </div>
 
           {/* Input Area */}
           {!session ? (
-            // Login Required Section
             <div className="border-t border-slate-700 bg-slate-900/50 p-8">
               <div className="max-w-2xl mx-auto text-center">
                 <p className="text-slate-400 mb-6">
@@ -327,7 +325,7 @@ export default function ChatRoomSection() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={handleGoogleLogin}
-                    className="px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg"
+                    className="px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                       <path
@@ -352,7 +350,7 @@ export default function ChatRoomSection() {
 
                   <button
                     onClick={handleGithubLogin}
-                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700 flex items-center justify-center gap-2 shadow-lg"
+                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
                   >
                     <svg
                       className="w-5 h-5"
@@ -371,7 +369,6 @@ export default function ChatRoomSection() {
               </div>
             </div>
           ) : (
-            // Message Input Form
             <form
               onSubmit={handleSendMessage}
               className="border-t border-slate-700 bg-slate-900/50 p-4"
@@ -382,44 +379,26 @@ export default function ChatRoomSection() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   disabled={isSending}
                   autoComplete="off"
                 />
                 <button
                   type="submit"
                   disabled={!newMessage.trim() || isSending}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                 >
-                  {isSending ? "..." : "Send"}
+                  {isSending ? (
+                    <span className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </span>
+                  ) : (
+                    "Send"
+                  )}
                 </button>
               </div>
             </form>
           )}
-        </div>
-
-        {/* Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500/30 transition-all">
-            <h3 className="font-bold text-white mb-2">👁️ Public Chat</h3>
-            <p className="text-slate-400 text-sm">
-              All messages are visible to everyone. Be respectful!
-            </p>
-          </div>
-
-          <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-purple-500/30 transition-all">
-            <h3 className="font-bold text-white mb-2">🛡️ Safe & Secure</h3>
-            <p className="text-slate-400 text-sm">
-              Your data is protected with industry-standard security
-            </p>
-          </div>
-
-          <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-pink-500/30 transition-all">
-            <h3 className="font-bold text-white mb-2">💬 Active Community</h3>
-            <p className="text-slate-400 text-sm">
-              Join discussions and connect with other visitors
-            </p>
-          </div>
         </div>
       </div>
 
@@ -461,6 +440,10 @@ export default function ChatRoomSection() {
         .scrollbar-thumb-slate-700::-webkit-scrollbar-thumb {
           background-color: rgb(51 65 85);
           border-radius: 4px;
+        }
+
+        .scrollbar-thumb-slate-700::-webkit-scrollbar-thumb:hover {
+          background-color: rgb(71 85 105);
         }
 
         .scrollbar-track-slate-900::-webkit-scrollbar-track {

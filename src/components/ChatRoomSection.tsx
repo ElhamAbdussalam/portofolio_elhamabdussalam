@@ -143,7 +143,7 @@ export default function ChatRoomSection() {
       <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading...</p>
+          <p className="text-slate-400 animate-pulse">Loading...</p>
         </div>
       </section>
     );
@@ -153,34 +153,30 @@ export default function ChatRoomSection() {
     <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 py-10 px-4 md:px-10">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-12 animate-fadeInDown">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 animate-gradientShift">
             Chat Room
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Feel free to share your thoughts, suggestions, questions, or
-            anything else!
-          </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mt-6"></div>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full animate-expandWidth"></div>
         </div>
 
         {/* User Info Bar */}
         {session?.user && (
-          <div className="mb-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-4 flex items-center justify-between animate-slideDown shadow-lg">
+          <div className="mb-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-4 flex items-center justify-between animate-slideDown shadow-lg hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300">
             <div className="flex items-center gap-3">
               {session.user.image ? (
                 <img
                   src={session.user.image}
                   alt={session.user.name || "User"}
-                  className="w-10 h-10 rounded-full ring-2 ring-blue-500 object-cover"
+                  className="w-10 h-10 rounded-full ring-2 ring-blue-500 object-cover animate-scaleIn hover:ring-4 hover:ring-purple-500 transition-all duration-300"
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold animate-scaleIn hover:scale-110 transition-transform duration-300">
                   {getInitials(session.user.name || "U")}
                 </div>
               )}
-              <div>
+              <div className="animate-fadeInLeft">
                 <p className="text-white font-semibold">
                   {session.user.name || "Anonymous"}
                 </p>
@@ -189,7 +185,7 @@ export default function ChatRoomSection() {
             </div>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-all flex items-center gap-2"
+              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-all flex items-center gap-2 hover:scale-105 active:scale-95 hover:shadow-lg"
             >
               <span className="hidden sm:inline">Logout</span>
               <span className="sm:hidden">↗</span>
@@ -198,26 +194,27 @@ export default function ChatRoomSection() {
         )}
 
         {/* Chat Container */}
-        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden shadow-2xl animate-fadeInUp hover:border-slate-600 transition-all duration-300">
           {/* Messages */}
           <div className="p-6 space-y-4 min-h-[500px] max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-20">
-                <div className="text-6xl mb-4">💬</div>
-                <h3 className="text-xl font-bold text-slate-300 mb-2">
+              <div className="flex flex-col items-center justify-center h-full text-center py-20 animate-fadeIn">
+                <div className="text-6xl mb-4 animate-bounce">💬</div>
+                <h3 className="text-xl font-bold text-slate-300 mb-2 animate-fadeInDown">
                   No messages yet
                 </h3>
-                <p className="text-slate-500">
+                <p className="text-slate-500 animate-fadeInUp">
                   Be the first to start the conversation!
                 </p>
               </div>
             ) : (
-              messages.map((msg) => {
+              messages.map((msg, index) => {
                 const isMine = isMyMessage(msg.userId);
                 return (
                   <div
                     key={msg.id}
-                    className={`flex gap-3 animate-fadeIn group ${isMine ? "flex-row-reverse" : ""}`}
+                    className={`flex gap-3 animate-messageSlideIn group ${isMine ? "flex-row-reverse" : ""}`}
+                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     {/* Avatar */}
                     <div className="flex-shrink-0">
@@ -225,7 +222,7 @@ export default function ChatRoomSection() {
                         <img
                           src={msg.userImage}
                           alt={msg.userName}
-                          className="w-11 h-11 rounded-full ring-2 ring-slate-700 object-cover transition-all group-hover:ring-blue-500"
+                          className="w-11 h-11 rounded-full ring-2 ring-slate-700 object-cover transition-all group-hover:ring-blue-500 group-hover:scale-110 duration-300"
                           referrerPolicy="no-referrer"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
@@ -236,7 +233,7 @@ export default function ChatRoomSection() {
                         />
                       ) : null}
                       <div
-                        className={`w-11 h-11 rounded-full bg-gradient-to-br ${getAvatarColor(msg.userId)} flex items-center justify-center text-white font-bold transition-all group-hover:scale-110 ${msg.userImage ? "hidden" : ""}`}
+                        className={`w-11 h-11 rounded-full bg-gradient-to-br ${getAvatarColor(msg.userId)} flex items-center justify-center text-white font-bold transition-all group-hover:scale-110 group-hover:rotate-6 duration-300 ${msg.userImage ? "hidden" : ""}`}
                       >
                         {getInitials(msg.userName)}
                       </div>
@@ -250,20 +247,23 @@ export default function ChatRoomSection() {
                       <div
                         className={`flex items-center gap-2 mb-1.5 ${isMine ? "flex-row-reverse" : ""}`}
                       >
-                        <span className="font-semibold text-white text-sm">
+                        <span className="font-semibold text-white text-sm animate-fadeIn">
                           {isMine ? "You" : msg.userName}
                         </span>
 
                         {/* Provider Badge */}
                         <div
-                          className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 animate-badgeSlideIn hover:scale-110 transition-transform duration-200 ${
                             msg.provider === "google"
                               ? "bg-blue-500/20 text-blue-300 border border-blue-500/30"
                               : "bg-slate-600/30 text-slate-300 border border-slate-600/40"
                           }`}
                         >
                           {msg.provider === "google" ? (
-                            <svg className="w-2.5 h-2.5" viewBox="0 0 24 24">
+                            <svg
+                              className="w-2.5 h-2.5 animate-spin-slow"
+                              viewBox="0 0 24 24"
+                            >
                               <path
                                 fill="currentColor"
                                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -283,7 +283,7 @@ export default function ChatRoomSection() {
                             </svg>
                           ) : (
                             <svg
-                              className="w-2.5 h-2.5"
+                              className="w-2.5 h-2.5 animate-pulse"
                               fill="currentColor"
                               viewBox="0 0 24 24"
                             >
@@ -299,17 +299,17 @@ export default function ChatRoomSection() {
                           </span>
                         </div>
 
-                        <span className="text-[11px] text-slate-500">
+                        <span className="text-[11px] text-slate-500 animate-fadeIn">
                           {formatDateTime(msg.timestamp)}
                         </span>
                       </div>
 
                       {/* Message Bubble */}
                       <div
-                        className={`relative px-4 py-3 rounded-2xl transition-all group-hover:shadow-lg ${
+                        className={`relative px-4 py-3 rounded-2xl transition-all group-hover:shadow-lg group-hover:scale-[1.02] duration-300 ${
                           isMine
-                            ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-tr-sm"
-                            : "bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 text-slate-100 rounded-tl-sm"
+                            ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-tr-sm animate-bubbleSlideLeft"
+                            : "bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 text-slate-100 rounded-tl-sm animate-bubbleSlideRight"
                         }`}
                       >
                         <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
@@ -332,7 +332,7 @@ export default function ChatRoomSection() {
                       </div>
 
                       {/* Reaction Placeholder (for future enhancement) */}
-                      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div
                           className={`flex gap-1 ${isMine ? "justify-end" : ""}`}
                         >
@@ -349,17 +349,17 @@ export default function ChatRoomSection() {
 
           {/* Input Area */}
           {!session ? (
-            <div className="border-t border-slate-700 bg-slate-900/50 p-8">
+            <div className="border-t border-slate-700 bg-slate-900/50 p-4 animate-fadeInUp">
               <div className="max-w-2xl mx-auto text-center">
-                <p className="text-slate-400 mb-6">
-                  🔒 Please sign in to join the conversation. Don&apos;t worry,
-                  your data is safe with us.
+                <p className="text-slate-400 mb-4 animate-pulse">
+                  🔒 Sign in to join the chat. Fast, secure, and
+                  privacy-friendly.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={handleGoogleLogin}
-                    className="px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
+                    className="px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 animate-fadeInLeft"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                       <path
@@ -384,7 +384,7 @@ export default function ChatRoomSection() {
 
                   <button
                     onClick={handleGithubLogin}
-                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
+                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 animate-fadeInRight"
                   >
                     <svg
                       className="w-5 h-5"
@@ -405,7 +405,7 @@ export default function ChatRoomSection() {
           ) : (
             <form
               onSubmit={handleSendMessage}
-              className="border-t border-slate-700 bg-slate-900/50 p-4"
+              className="border-t border-slate-700 bg-slate-900/50 p-4 animate-fadeInUp"
             >
               <div className="flex gap-3">
                 <input
@@ -413,14 +413,14 @@ export default function ChatRoomSection() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all focus:scale-[1.01] duration-200"
                   disabled={isSending}
                   autoComplete="off"
                 />
                 <button
                   type="submit"
                   disabled={!newMessage.trim() || isSending}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 duration-200"
                 >
                   {isSending ? (
                     <span className="flex items-center gap-2">
@@ -448,6 +448,50 @@ export default function ChatRoomSection() {
           }
         }
 
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
         @keyframes slideDown {
           from {
             opacity: 0;
@@ -459,12 +503,146 @@ export default function ChatRoomSection() {
           }
         }
 
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes messageSlideIn {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes bubbleSlideLeft {
+          from {
+            opacity: 0;
+            transform: translateX(20px) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+          }
+        }
+
+        @keyframes bubbleSlideRight {
+          from {
+            opacity: 0;
+            transform: translateX(-20px) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+          }
+        }
+
+        @keyframes badgeSlideIn {
+          from {
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes expandWidth {
+          from {
+            width: 0;
+          }
+          to {
+            width: 5rem;
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
         .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
+          animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-fadeInDown {
+          animation: fadeInDown 0.6s ease-out;
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.5s ease-out;
+        }
+
+        .animate-fadeInLeft {
+          animation: fadeInLeft 0.5s ease-out;
+        }
+
+        .animate-fadeInRight {
+          animation: fadeInRight 0.5s ease-out;
         }
 
         .animate-slideDown {
-          animation: slideDown 0.3s ease-out;
+          animation: slideDown 0.4s ease-out;
+        }
+
+        .animate-scaleIn {
+          animation: scaleIn 0.4s ease-out;
+        }
+
+        .animate-messageSlideIn {
+          animation: messageSlideIn 0.4s ease-out backwards;
+        }
+
+        .animate-bubbleSlideLeft {
+          animation: bubbleSlideLeft 0.3s ease-out;
+        }
+
+        .animate-bubbleSlideRight {
+          animation: bubbleSlideRight 0.3s ease-out;
+        }
+
+        .animate-badgeSlideIn {
+          animation: badgeSlideIn 0.3s ease-out;
+        }
+
+        .animate-expandWidth {
+          animation: expandWidth 0.6s ease-out;
+        }
+
+        .animate-gradientShift {
+          background-size: 200% 200%;
+          animation: gradientShift 3s ease infinite;
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
         }
 
         .scrollbar-thin::-webkit-scrollbar {
@@ -474,6 +652,7 @@ export default function ChatRoomSection() {
         .scrollbar-thumb-slate-700::-webkit-scrollbar-thumb {
           background-color: rgb(51 65 85);
           border-radius: 4px;
+          transition: background-color 0.3s;
         }
 
         .scrollbar-thumb-slate-700::-webkit-scrollbar-thumb:hover {

@@ -5,39 +5,10 @@ import { Sparkles } from "lucide-react";
 import TiltedCard from "./ui/TiltedCard";
 import ScrambledText from "./ui/ScrambledText";
 import Divider from "./ui/Divider";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const techStackRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax effects dengan spring physics untuk smooth motion
-  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-  const backgroundY1 = useSpring(
-    useTransform(scrollYProgress, [0, 1], ["0%", "40%"]),
-    springConfig,
-  );
-  const backgroundY2 = useSpring(
-    useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
-    springConfig,
-  );
-  const backgroundY3 = useSpring(
-    useTransform(scrollYProgress, [0, 1], ["0%", "20%"]),
-    springConfig,
-  );
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.7, 1],
-    [0.95, 1, 1, 0.95],
-  );
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -359,83 +330,52 @@ export default function About() {
   ];
 
   return (
-    <motion.section
+    <section
       ref={sectionRef}
-      style={{ scale, opacity }}
       className="min-h-screen py-10 px-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
     >
-      {/* Background Elements with Parallax */}
+      {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          style={{ y: backgroundY1 }}
-          className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ y: backgroundY2 }}
-          className="absolute bottom-1/3 left-10 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ y: backgroundY3 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl"
-        />
+        <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-10 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-10"
+        <div
+          className={`text-center mb-10 transition-all duration-1000 ${
+            isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-10"
+          }`}
         >
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4"
-            whileInView={{ scale: [0.9, 1] }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
             About Me
-          </motion.h2>
-          <motion.div
-            className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+          </h2>
+          <div
+            className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
+              isVisible ? "scale-x-100" : "scale-x-0"
+            }`}
           />
-        </motion.div>
+        </div>
 
         {/* Main Content - Profile & Description */}
         <div className="mb-20">
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
             {/* Profile Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -60, scale: 0.9 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            <div
+              className={`transition-all duration-1000 delay-300 ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-10"
+              }`}
             >
               <div className="relative">
-                {/* Glow Effect with Animation */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl"
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.5, 0.8, 0.5],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl" />
 
-                <motion.div
-                  className="relative grayscale hover:grayscale-0 transition duration-500"
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
+                <div className="relative grayscale hover:grayscale-0 transition duration-500">
                   <TiltedCard
                     imageSrc="/profile.webp"
                     containerHeight="320px"
@@ -448,26 +388,19 @@ export default function About() {
                     showTooltip
                     displayOverlayContent
                   />
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, x: 60, scale: 0.9 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-              className="flex-1"
+            <div
+              className={`flex-1 transition-all duration-1000 delay-400 ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-10"
+              }`}
             >
-              <motion.div
-                className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 text-justify"
-                whileHover={{
-                  borderColor: "rgba(96, 165, 250, 0.3)",
-                  boxShadow: "0 0 30px rgba(96, 165, 250, 0.1)",
-                }}
-                transition={{ duration: 0.3 }}
-              >
+              <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 text-justify">
                 <ScrambledText
                   className="text-slate-300 text-base md:text-lg leading-relaxed"
                   radius={100}
@@ -476,9 +409,9 @@ export default function About() {
                   scrambleChars=".:"
                 >
                   I'm a{" "}
-                  <span className="font-bold text-blue-400">
+                  <span className="font-bold  text-blue-400 ">
                     Software Engineer | Full Stack Developer
-                  </span>{" "}
+                  </span>
                   based in Indonesia, focused on building scalable and impactful
                   digital solutions. I specialize in developing web applications
                   using modern technologies such as{" "}
@@ -510,98 +443,55 @@ export default function About() {
                   . I enjoy collaborating in team environments and continuously
                   strive to deliver solutions that create real-world value.
                 </ScrambledText>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
 
         <Divider />
 
         {/* Tech Stack Section */}
-        <motion.div
-          ref={techStackRef}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-20"
+        <div
+          className={`mb-20 transition-all duration-1000 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
         >
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <motion.h3
-              className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-3 inline-flex items-center gap-3 flex-wrap justify-center"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
-                <Sparkles className="w-8 h-8 text-purple-400" />
-              </motion.div>
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-3 inline-flex items-center gap-3 flex-wrap justify-center">
+              <Sparkles className="w-8 h-8 text-purple-400" />
               Tech Stack & Tools
-              <motion.div
-                animate={{ rotate: [360, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
-                <Sparkles className="w-8 h-8 text-blue-400" />
-              </motion.div>
-            </motion.h3>
-            <motion.p
-              className="text-slate-400 text-lg max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+              <Sparkles className="w-8 h-8 text-blue-400" />
+            </h3>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
               Technologies and tools I use to build amazing digital experiences
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          {/* Tech Stack Grid with Staggered Animation */}
+          {/* Single Column Tech Stack Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {techStack.map((tech, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px", amount: 0.1 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.02,
-                  ease: "easeOut",
-                }}
                 className="group relative"
+                style={{
+                  animationDelay: `${index * 30}ms`,
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: `all 0.5s ease-out ${index * 30}ms`,
+                }}
               >
                 {/* Glow Effect on Hover */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${tech.color} rounded-2xl blur-xl`}
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 0.3 }}
-                  transition={{ duration: 0.3 }}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-500`}
                 />
 
                 {/* Card */}
-                <motion.div
-                  className="relative bg-slate-800/40 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50 hover:border-slate-600 transition-all duration-300 group h-full flex flex-col items-center justify-center gap-3 min-h-[110px]"
-                  whileHover={{
-                    y: -8,
-                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <motion.div
-                    className={`text-3xl font-bold bg-gradient-to-br ${tech.color} bg-clip-text text-transparent`}
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
+                <div className="relative bg-slate-800/40 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50 hover:border-slate-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group h-full flex flex-col items-center justify-center gap-3 min-h-[110px]">
+                  <div
+                    className={`text-3xl font-bold bg-gradient-to-br ${tech.color} bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300`}
                   >
                     {tech.icon}
-                  </motion.div>
+                  </div>
                   <div className="text-center">
                     <span className="text-slate-300 text-xs font-medium block">
                       {tech.name}
@@ -609,84 +499,36 @@ export default function About() {
                   </div>
 
                   {/* Tooltip on hover */}
-                  <motion.div
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl z-10"
-                    initial={{ y: 10 }}
-                    whileHover={{ y: 0 }}
-                  >
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl z-10">
                     {tech.category}
                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 border-b border-r border-slate-700 rotate-45" />
-                  </motion.div>
-                </motion.div>
-              </motion.div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
 
-          {/* Tech Stack Summary with Counter Animation */}
-          <motion.div
-            className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            {[
-              {
-                count: "12+",
-                label: "Frontend Tech",
-                gradient: "from-blue-500/10 to-cyan-500/10",
-                border: "border-blue-500/20",
-                text: "text-blue-400",
-              },
-              {
-                count: "8+",
-                label: "Backend Tech",
-                gradient: "from-purple-500/10 to-pink-500/10",
-                border: "border-purple-500/20",
-                text: "text-purple-400",
-              },
-              {
-                count: "7+",
-                label: "Database Tools",
-                gradient: "from-green-500/10 to-emerald-500/10",
-                border: "border-green-500/20",
-                text: "text-green-400",
-              },
-              {
-                count: "20+",
-                label: "Dev Tools",
-                gradient: "from-orange-500/10 to-amber-500/10",
-                border: "border-orange-500/20",
-                text: "text-orange-400",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                className={`bg-gradient-to-br ${item.gradient} backdrop-blur-sm rounded-xl p-4 border ${item.border} text-center`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: item.border.replace("/20", "/40"),
-                }}
-              >
-                <motion.div
-                  className={`text-2xl font-bold ${item.text} mb-1`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
-                >
-                  {item.count}
-                </motion.div>
-                <div className="text-slate-400 text-sm">{item.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+          {/* Tech Stack Summary */}
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm rounded-xl p-4 border border-blue-500/20 text-center">
+              <div className="text-2xl font-bold text-blue-400 mb-1">12+</div>
+              <div className="text-slate-400 text-sm">Frontend Tech</div>
+            </div>
+            <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20 text-center">
+              <div className="text-2xl font-bold text-purple-400 mb-1">8+</div>
+              <div className="text-slate-400 text-sm">Backend Tech</div>
+            </div>
+            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-sm rounded-xl p-4 border border-green-500/20 text-center">
+              <div className="text-2xl font-bold text-green-400 mb-1">7+</div>
+              <div className="text-slate-400 text-sm">Database Tools</div>
+            </div>
+            <div className="bg-gradient-to-br from-orange-500/10 to-amber-500/10 backdrop-blur-sm rounded-xl p-4 border border-orange-500/20 text-center">
+              <div className="text-2xl font-bold text-orange-400 mb-1">20+</div>
+              <div className="text-slate-400 text-sm">Dev Tools</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

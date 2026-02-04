@@ -36,94 +36,117 @@ export default function LoadingScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 transition-opacity duration-700 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 transition-opacity duration-700 ${
         progress === 100 ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      {/* Animated background */}
+      {/* Animated background gradients */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-float-delayed" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-500/5 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-float-delayed" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-500/10 rounded-full blur-3xl animate-pulse-slow" />
         </div>
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center">
+      <div className="relative z-10 flex flex-col items-center px-4">
         {/* Circular progress */}
-        <div className="relative mb-8">
-          {/* Outer glow ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl animate-pulse" />
+        <div className="relative mb-10">
+          {/* Outer glow ring - enhanced */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 blur-2xl animate-pulse-glow" />
 
           {/* SVG Circle */}
-          <svg className="transform -rotate-90 w-48 h-48" viewBox="0 0 160 160">
+          <svg className="transform -rotate-90 w-56 h-56" viewBox="0 0 160 160">
             {/* Background circle */}
             <circle
               cx="80"
               cy="80"
               r={radius}
-              stroke="rgba(100, 116, 139, 0.2)"
-              strokeWidth="8"
+              stroke="rgba(100, 116, 139, 0.15)"
+              strokeWidth="6"
               fill="none"
             />
 
-            {/* Progress circle */}
+            {/* Progress circle with gradient */}
             <circle
               cx="80"
               cy="80"
               r={radius}
               stroke="url(#gradient)"
-              strokeWidth="8"
+              strokeWidth="6"
               fill="none"
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
-              className="transition-all duration-200 ease-out"
+              className="transition-all duration-200 ease-out filter drop-shadow-lg"
             />
 
-            {/* Gradient definition */}
+            {/* Gradient definition - enhanced */}
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3b82f6" />
-                <stop offset="50%" stopColor="#a855f7" />
-                <stop offset="100%" stopColor="#ec4899" />
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="50%" stopColor="#c084fc" />
+                <stop offset="100%" stopColor="#f472b6" />
               </linearGradient>
             </defs>
           </svg>
 
-          {/* Center content */}
+          {/* Center content - enhanced */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <div className="text-6xl font-black bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-number-pulse">
               {progress}
             </div>
-            <div className="text-sm text-slate-400 mt-1">%</div>
           </div>
         </div>
 
-        {/* Brand name */}
+        {/* Brand name - enhanced */}
         <div className="text-center animate-fadeIn">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          {/* Logo or Icon (optional) */}
+          <div className="mb-4 flex justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-purple-500/50">
+              <span className="text-3xl">✨</span>
+            </div>
+          </div>
+
+          {/* Name with gradient */}
+          <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
             M Elham Abdussalam
           </h1>
-          <p className="text-slate-400 text-sm">
-            {progress < 25 && "🚀 Initializing..."}
-            {progress >= 25 && progress < 50 && "📦 Loading components..."}
-            {progress >= 50 && progress < 75 && "🎨 Preparing UI..."}
-            {progress >= 75 && progress < 100 && "✨ Almost ready..."}
-            {progress === 100 && "✅ Welcome!"}
+
+          {/* Subtitle */}
+          <p className="text-slate-500 text-sm font-medium mb-4 tracking-wide">
+            Full Stack Developer
           </p>
+
+          {/* Status text with icon - enhanced */}
+          <div className="flex items-center justify-center gap-2 text-slate-400 text-sm font-medium">
+            <span className="animate-bounce">
+              {progress < 25 && "🚀"}
+              {progress >= 25 && progress < 50 && "📦"}
+              {progress >= 50 && progress < 75 && "🎨"}
+              {progress >= 75 && progress < 100 && "✨"}
+              {progress === 100 && "✅"}
+            </span>
+            <span>
+              {progress < 25 && "Initializing..."}
+              {progress >= 25 && progress < 50 && "Loading components..."}
+              {progress >= 50 && progress < 75 && "Preparing UI..."}
+              {progress >= 75 && progress < 100 && "Almost ready..."}
+              {progress === 100 && "Welcome!"}
+            </span>
+          </div>
         </div>
 
-        {/* Dot indicators */}
-        <div className="flex gap-2 mt-8">
+        {/* Enhanced dot indicators */}
+        <div className="flex gap-3 mt-10">
           {[0, 1, 2].map((index) => (
             <div
               key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`h-1.5 rounded-full transition-all duration-500 ${
                 progress > index * 33
-                  ? "bg-gradient-to-r from-blue-500 to-purple-500 scale-125"
-                  : "bg-slate-700"
+                  ? "w-12 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg shadow-purple-500/50"
+                  : "w-8 bg-slate-700"
               }`}
               style={{ animationDelay: `${index * 150}ms` }}
             />
@@ -153,6 +176,68 @@ export default function LoadingScreen() {
           }
         }
 
+        @keyframes float-slow {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-30px) rotate(5deg);
+          }
+        }
+
+        @keyframes float-slow-2 {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg) scale(1);
+          }
+          50% {
+            transform: translateY(-25px) rotate(-5deg) scale(1.1);
+          }
+        }
+
+        @keyframes float-delayed-2 {
+          0%,
+          100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          50% {
+            transform: translateY(-15px) translateX(10px);
+          }
+        }
+
+        @keyframes pulse-slow {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        @keyframes pulse-glow {
+          0%,
+          100% {
+            opacity: 0.6;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(1.05);
+          }
+        }
+
+        @keyframes number-pulse {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+
         .animate-fadeIn {
           animation: fadeIn 1s ease-out;
         }
@@ -164,6 +249,32 @@ export default function LoadingScreen() {
         .animate-float-delayed {
           animation: float 6s ease-in-out infinite;
           animation-delay: 2s;
+        }
+
+        .animate-float-slow {
+          animation: float-slow 8s ease-in-out infinite;
+        }
+
+        .animate-float-slow-2 {
+          animation: float-slow-2 10s ease-in-out infinite;
+          animation-delay: 1s;
+        }
+
+        .animate-float-delayed-2 {
+          animation: float-delayed-2 7s ease-in-out infinite;
+          animation-delay: 3s;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .animate-number-pulse {
+          animation: number-pulse 2s ease-in-out infinite;
         }
       `}</style>
     </div>

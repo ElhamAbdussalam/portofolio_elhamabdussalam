@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import { Providers } from "./provider";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,6 +41,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>
+        <LoadingScreen />
         <Providers>
           <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
             <Sidebar />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function LoadingScreenAdvanced() {
+export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 

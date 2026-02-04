@@ -5,6 +5,14 @@ import { useState, useEffect } from "react";
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+
+  const roles = [
+    "Software Engineer",
+    "Full Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+  ];
 
   useEffect(() => {
     const duration = 2500; // 2.5 seconds
@@ -26,6 +34,15 @@ export default function LoadingScreen() {
 
     return () => clearInterval(timer);
   }, []);
+
+  // Rotate roles every 600ms
+  useEffect(() => {
+    const roleTimer = setInterval(() => {
+      setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 600);
+
+    return () => clearInterval(roleTimer);
+  }, [roles.length]);
 
   if (!isLoading) return null;
 
@@ -102,22 +119,20 @@ export default function LoadingScreen() {
 
         {/* Brand name - enhanced */}
         <div className="text-center animate-fadeIn">
-          {/* Logo or Icon (optional) */}
-          <div className="mb-4 flex justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-purple-500/50">
-              <span className="text-3xl">✨</span>
-            </div>
-          </div>
-
           {/* Name with gradient */}
           <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
             M Elham Abdussalam
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-slate-500 text-sm font-medium mb-4 tracking-wide">
-            Full Stack Developer
-          </p>
+          {/* Subtitle - rotating roles */}
+          <div className="h-6 overflow-hidden mb-2">
+            <p
+              key={currentRoleIndex}
+              className="text-slate-500 text-sm font-medium tracking-wide animate-role-slide"
+            >
+              {roles[currentRoleIndex]}
+            </p>
+          </div>
 
           {/* Status text with icon - enhanced */}
           <div className="flex items-center justify-center gap-2 text-slate-400 text-sm font-medium">
@@ -139,7 +154,7 @@ export default function LoadingScreen() {
         </div>
 
         {/* Enhanced dot indicators */}
-        <div className="flex gap-3 mt-10">
+        <div className="flex gap-3 mt-6">
           {[0, 1, 2].map((index) => (
             <div
               key={index}
@@ -238,6 +253,25 @@ export default function LoadingScreen() {
           }
         }
 
+        @keyframes role-slide {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+        }
+
         .animate-fadeIn {
           animation: fadeIn 1s ease-out;
         }
@@ -275,6 +309,10 @@ export default function LoadingScreen() {
 
         .animate-number-pulse {
           animation: number-pulse 2s ease-in-out infinite;
+        }
+
+        .animate-role-slide {
+          animation: role-slide 600ms ease-in-out;
         }
       `}</style>
     </div>

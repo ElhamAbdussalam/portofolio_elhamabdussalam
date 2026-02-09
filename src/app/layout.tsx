@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Muhammad Elham Abdussalam - Portfolio",
   description:
     "Portfolio of Muhammad Elham Abdussalam, Full Stack Developer specializing in MERN, Next.js, and modern web apps.",
+  verification: {
+    google: "95nif6NtD3DMVq4MjIVsxGrJAJ1cYZ-BXQ1cfBGSvbY",
+  },
   keywords: [
     "Full Stack Developer",
     "Web Developer",

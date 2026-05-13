@@ -381,4 +381,55 @@ export const projects: Project[] = [
     ],
     role: "Full-Stack Developer",
   },
+  {
+  id: 10,
+  title: "Company Hub – HRIS & Company Management System 🏢",
+  description:
+    "A production-ready HRIS & Company Management platform built to manage employees, attendance, leave requests, reimbursements, assets, and tasks with secure role-based access and scalable architecture.",
+
+  longDescription:
+    "Company Hub is a full-stack HRIS & Company Management System designed to help companies streamline internal operations through a centralized and scalable platform. The system includes employee management, attendance tracking with clock-in/out, leave approval workflows, reimbursement management with receipt uploads, asset inventory tracking, and task management with progress monitoring. Built using modern backend technologies and Clean Architecture principles, this project focuses on modular scalability, secure authentication, reusable middleware, and optimized database performance. It simulates a real-world enterprise management platform with production-grade security, role-based access control, and maintainable service-layer architecture.",
+
+  image: "/projects-10.webp",
+
+  category: "Full-Stack Developer",
+
+  technologies: [
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Mongoose",
+    "JWT Authentication",
+    "bcryptjs",
+    "Joi Validation",
+    "Multer",
+    "RESTful API",
+    "Clean Architecture",
+    "Service Layer Pattern",
+    "Role-Based Access Control",
+    "Rate Limiting",
+    "Helmet Security",
+    "Postman",
+    "Git & GitHub",
+  ],
+
+  status: "Completed",
+
+  year: "2026",
+
+  features: [
+    "JWT dual-token authentication with refresh token rotation",
+    "Role-based access control (Admin, HR, Manager, Employee)",
+    "Employee management with scalable modular architecture",
+    "Attendance tracking with clock-in/out and lateness detection",
+    "Leave management with approval workflow and status tracking",
+    "Reimbursement management with receipt upload support",
+    "Asset inventory & assignment tracking system",
+    "Task management with priorities, progress, and workflow statuses",
+    "50+ RESTful API endpoints with reusable middleware architecture",
+    "Production-grade security, validation, and optimized database queries",
+  ],
+
+  role: "Full-Stack Developer",
+}
 ];

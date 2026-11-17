@@ -1,381 +1,355 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Sparkles } from "lucide-react";
+import {
+  Sparkles,
+  MapPin,
+  Code2,
+  Layers,
+  Rocket,
+  Terminal,
+  PawPrint,
+  RefreshCw,
+  Plug,
+  Workflow,
+  type LucideIcon,
+} from "lucide-react";
 import TiltedCard from "./ui/TiltedCard";
 import ScrambledText from "./ui/ScrambledText";
 import Divider from "./ui/Divider";
 
+type Category = "Frontend" | "Backend" | "Database" | "Tools";
+
+type Tech = {
+  name: string;
+  abbr: string;
+  category: Category;
+  slug?: string; // nama icon di Devicon
+  urls?: string[]; // override sumber logo
+  Icon?: LucideIcon; // fallback bila logo tidak tersedia
+  dark?: boolean; // logo gelap -> tetap putih saat hover
+};
+
+const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const techStack: Tech[] = [
+  // Frontend
+  { name: "React", abbr: "Re", category: "Frontend", slug: "react" },
+  {
+    name: "Next.js",
+    abbr: "Nx",
+    category: "Frontend",
+    slug: "nextjs",
+  },
+  { name: "TypeScript", abbr: "TS", category: "Frontend", slug: "typescript" },
+  { name: "JavaScript", abbr: "JS", category: "Frontend", slug: "javascript" },
+  { name: "Vue.js", abbr: "Vu", category: "Frontend", slug: "vuejs" },
+  { name: "Nuxt.js", abbr: "Nu", category: "Frontend", slug: "nuxtjs" },
+  {
+    name: "Tailwind CSS",
+    abbr: "Tw",
+    category: "Frontend",
+    slug: "tailwindcss",
+  },
+  { name: "Bootstrap", abbr: "Bs", category: "Frontend", slug: "bootstrap" },
+  { name: "Sass", abbr: "Ss", category: "Frontend", slug: "sass" },
+  { name: "Redux", abbr: "Rx", category: "Frontend", slug: "redux" },
+  { name: "Zustand", abbr: "Zu", category: "Frontend", Icon: PawPrint },
+  {
+    name: "React Query",
+    abbr: "RQ",
+    category: "Frontend",
+    urls: ["https://cdn.simpleicons.org/reactquery"],
+    Icon: RefreshCw,
+  },
+  // Backend
+  { name: "Node.js", abbr: "No", category: "Backend", slug: "nodejs" },
+  {
+    name: "Express.js",
+    abbr: "Ex",
+    category: "Backend",
+    slug: "express",
+    dark: true,
+  },
+  { name: "NestJS", abbr: "Ns", category: "Backend", slug: "nestjs" },
+  { name: "Laravel", abbr: "La", category: "Backend", slug: "laravel" },
+  { name: "PHP", abbr: "Ph", category: "Backend", slug: "php" },
+  { name: "Python", abbr: "Py", category: "Backend", slug: "python" },
+  { name: "FastAPI", abbr: "Fa", category: "Backend", slug: "fastapi" },
+  {
+    name: "GraphQL",
+    abbr: "Gq",
+    category: "Backend",
+    urls: [
+      "https://cdn.simpleicons.org/graphql",
+      `${DEVICON}/graphql/graphql-plain.svg`,
+    ],
+    Icon: Workflow,
+  },
+  { name: "REST API", abbr: "Rs", category: "Backend", Icon: Plug },
+  // Database
+  { name: "PostgreSQL", abbr: "Pg", category: "Database", slug: "postgresql" },
+  { name: "MySQL", abbr: "My", category: "Database", slug: "mysql" },
+  { name: "MongoDB", abbr: "Mo", category: "Database", slug: "mongodb" },
+  { name: "Redis", abbr: "Rd", category: "Database", slug: "redis" },
+  { name: "Firebase", abbr: "Fb", category: "Database", slug: "firebase" },
+  { name: "Supabase", abbr: "Sb", category: "Database", slug: "supabase" },
+  {
+    name: "Prisma",
+    abbr: "Pr",
+    category: "Database",
+    slug: "prisma",
+    dark: true,
+  },
+  // Tools & DevOps
+  { name: "Git", abbr: "Gi", category: "Tools", slug: "git" },
+  { name: "GitHub", abbr: "Gh", category: "Tools", slug: "github", dark: true },
+  { name: "Docker", abbr: "Dk", category: "Tools", slug: "docker" },
+  { name: "Kubernetes", abbr: "K8", category: "Tools", slug: "kubernetes" },
+  {
+    name: "AWS",
+    abbr: "Aw",
+    category: "Tools",
+    slug: "amazonwebservices",
+    dark: true,
+  },
+  { name: "Vercel", abbr: "Ve", category: "Tools", slug: "vercel", dark: true },
+  { name: "Netlify", abbr: "Nl", category: "Tools", slug: "netlify" },
+  { name: "Postman", abbr: "Pm", category: "Tools", slug: "postman" },
+  { name: "VS Code", abbr: "VS", category: "Tools", slug: "vscode" },
+  { name: "Figma", abbr: "Fg", category: "Tools", slug: "figma" },
+  {
+    name: "Jest",
+    abbr: "Je",
+    category: "Tools",
+    urls: [
+      "https://cdn.simpleicons.org/jest",
+      `${DEVICON}/jest/jest-plain.svg`,
+    ],
+    Icon: Terminal,
+  },
+  {
+    name: "Cypress",
+    abbr: "Cy",
+    category: "Tools",
+    slug: "cypressio",
+    dark: true,
+  },
+  { name: "Webpack", abbr: "Wp", category: "Tools", slug: "webpack" },
+  { name: "Vite", abbr: "Vi", category: "Tools", slug: "vite" },
+  { name: "npm", abbr: "np", category: "Tools", slug: "npm" },
+  { name: "Yarn", abbr: "Yn", category: "Tools", slug: "yarn" },
+  { name: "pnpm", abbr: "pn", category: "Tools", slug: "pnpm" },
+  { name: "Linux", abbr: "Lx", category: "Tools", slug: "linux", dark: true },
+  { name: "Nginx", abbr: "Ng", category: "Tools", slug: "nginx" },
+  {
+    name: "CI/CD",
+    abbr: "CI",
+    category: "Tools",
+    slug: "githubactions",
+    dark: true,
+    Icon: Workflow,
+  },
+];
+
+const categories: ("All" | Category)[] = [
+  "All",
+  "Frontend",
+  "Backend",
+  "Database",
+  "Tools",
+];
+
+/** Logo asli teknologi. Putih/monokrom by default, berwarna saat hover. */
+function TechLogo({ tech }: { tech: Tech }) {
+  const [attempt, setAttempt] = useState(0);
+
+  const urls =
+    tech.urls ??
+    (tech.slug
+      ? ["original", "plain", "original-wordmark"].map(
+          (v) => `${DEVICON}/${tech.slug}/${tech.slug}-${v}.svg`,
+        )
+      : []);
+
+  if (attempt >= urls.length) {
+    const Fallback = tech.Icon;
+    return Fallback ? (
+      <Fallback className="h-6 w-6" />
+    ) : (
+      <span className="font-mono text-sm font-semibold">{tech.abbr}</span>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={urls[attempt]}
+      alt={`${tech.name} logo`}
+      loading="lazy"
+      draggable={false}
+      onError={() => setAttempt((a) => a + 1)}
+      className={`h-7 w-7 object-contain brightness-0 invert opacity-60 transition duration-300 group-hover:opacity-100 ${
+        tech.dark ? "" : "group-hover:brightness-100 group-hover:invert-0"
+      }`}
+    />
+  );
+}
+
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const [active, setActive] = useState<"All" | Category>("All");
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const el = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      {
-        threshold: 0.1,
-        rootMargin: "50px",
-      },
+      { threshold: 0.1, rootMargin: "50px" },
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (el) observer.observe(el);
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (el) observer.unobserve(el);
     };
   }, []);
 
-  const techStack = [
-    // Frontend
-    {
-      name: "React",
-      icon: "⚛️",
-      color: "from-cyan-400 to-blue-500",
-      category: "Frontend",
-    },
-    {
-      name: "Next.js",
-      icon: "▲",
-      color: "from-slate-100 to-slate-400",
-      category: "Frontend",
-    },
-    {
-      name: "TypeScript",
-      icon: "TS",
-      color: "from-blue-400 to-blue-600",
-      category: "Frontend",
-    },
-    {
-      name: "JavaScript",
-      icon: "JS",
-      color: "from-yellow-400 to-yellow-600",
-      category: "Frontend",
-    },
-    {
-      name: "Vue.js",
-      icon: "V",
-      color: "from-green-400 to-emerald-500",
-      category: "Frontend",
-    },
-    {
-      name: "Nuxt.js",
-      icon: "N",
-      color: "from-green-500 to-teal-600",
-      category: "Frontend",
-    },
-    {
-      name: "Tailwind CSS",
-      icon: "🎨",
-      color: "from-cyan-300 to-blue-400",
-      category: "Frontend",
-    },
-    {
-      name: "Bootstrap",
-      icon: "B",
-      color: "from-purple-500 to-purple-700",
-      category: "Frontend",
-    },
-    {
-      name: "Sass",
-      icon: "S",
-      color: "from-pink-400 to-pink-600",
-      category: "Frontend",
-    },
-    {
-      name: "Redux",
-      icon: "R",
-      color: "from-purple-600 to-indigo-600",
-      category: "Frontend",
-    },
-    {
-      name: "Zustand",
-      icon: "🐻",
-      color: "from-amber-600 to-orange-600",
-      category: "Frontend",
-    },
-    {
-      name: "React Query",
-      icon: "RQ",
-      color: "from-red-400 to-rose-500",
-      category: "Frontend",
-    },
-    // Backend
-    {
-      name: "Node.js",
-      icon: "◆",
-      color: "from-green-500 to-green-700",
-      category: "Backend",
-    },
-    {
-      name: "Express.js",
-      icon: "E",
-      color: "from-slate-300 to-slate-500",
-      category: "Backend",
-    },
-    {
-      name: "NestJS",
-      icon: "🐱",
-      color: "from-red-500 to-pink-600",
-      category: "Backend",
-    },
-    {
-      name: "Laravel",
-      icon: "L",
-      color: "from-red-400 to-red-600",
-      category: "Backend",
-    },
-    {
-      name: "PHP",
-      icon: "🐘",
-      color: "from-indigo-400 to-purple-500",
-      category: "Backend",
-    },
-    {
-      name: "Python",
-      icon: "🐍",
-      color: "from-blue-500 to-yellow-500",
-      category: "Backend",
-    },
-    {
-      name: "FastAPI",
-      icon: "⚡",
-      color: "from-teal-500 to-green-500",
-      category: "Backend",
-    },
-    {
-      name: "GraphQL",
-      icon: "GQL",
-      color: "from-pink-500 to-rose-600",
-      category: "Backend",
-    },
-    {
-      name: "REST API",
-      icon: "🔌",
-      color: "from-blue-400 to-cyan-500",
-      category: "Backend",
-    },
-    // Database
-    {
-      name: "PostgreSQL",
-      icon: "🐘",
-      color: "from-blue-500 to-indigo-600",
-      category: "Database",
-    },
-    {
-      name: "MySQL",
-      icon: "🐬",
-      color: "from-blue-400 to-blue-600",
-      category: "Database",
-    },
-    {
-      name: "MongoDB",
-      icon: "🍃",
-      color: "from-green-500 to-emerald-600",
-      category: "Database",
-    },
-    {
-      name: "Redis",
-      icon: "◆",
-      color: "from-red-500 to-rose-600",
-      category: "Database",
-    },
-    {
-      name: "Firebase",
-      icon: "🔥",
-      color: "from-yellow-500 to-orange-600",
-      category: "Database",
-    },
-    {
-      name: "Supabase",
-      icon: "⚡",
-      color: "from-green-400 to-emerald-500",
-      category: "Database",
-    },
-    {
-      name: "Prisma",
-      icon: "▲",
-      color: "from-slate-600 to-slate-800",
-      category: "Database",
-    },
-    // Tools & DevOps
-    {
-      name: "Git",
-      icon: "⎇",
-      color: "from-orange-500 to-red-500",
-      category: "Tools",
-    },
-    {
-      name: "GitHub",
-      icon: "🐙",
-      color: "from-slate-700 to-slate-900",
-      category: "Tools",
-    },
-    {
-      name: "Docker",
-      icon: "🐋",
-      color: "from-blue-400 to-cyan-500",
-      category: "Tools",
-    },
-    {
-      name: "Kubernetes",
-      icon: "☸️",
-      color: "from-blue-500 to-indigo-600",
-      category: "Tools",
-    },
-    {
-      name: "AWS",
-      icon: "☁️",
-      color: "from-orange-400 to-yellow-500",
-      category: "Tools",
-    },
-    {
-      name: "Vercel",
-      icon: "▲",
-      color: "from-slate-900 to-black",
-      category: "Tools",
-    },
-    {
-      name: "Netlify",
-      icon: "N",
-      color: "from-teal-400 to-cyan-500",
-      category: "Tools",
-    },
-    {
-      name: "Postman",
-      icon: "📮",
-      color: "from-orange-400 to-orange-600",
-      category: "Tools",
-    },
-    {
-      name: "VS Code",
-      icon: "💻",
-      color: "from-blue-500 to-blue-700",
-      category: "Tools",
-    },
-    {
-      name: "Figma",
-      icon: "🎨",
-      color: "from-purple-500 to-pink-500",
-      category: "Tools",
-    },
-    {
-      name: "Jest",
-      icon: "🃏",
-      color: "from-red-600 to-rose-700",
-      category: "Tools",
-    },
-    {
-      name: "Cypress",
-      icon: "🌲",
-      color: "from-green-600 to-teal-600",
-      category: "Tools",
-    },
-    {
-      name: "Webpack",
-      icon: "W",
-      color: "from-blue-400 to-cyan-600",
-      category: "Tools",
-    },
-    {
-      name: "Vite",
-      icon: "⚡",
-      color: "from-purple-500 to-yellow-500",
-      category: "Tools",
-    },
-    {
-      name: "npm",
-      icon: "📦",
-      color: "from-red-500 to-red-700",
-      category: "Tools",
-    },
-    {
-      name: "Yarn",
-      icon: "🧶",
-      color: "from-blue-400 to-blue-600",
-      category: "Tools",
-    },
-    {
-      name: "pnpm",
-      icon: "📦",
-      color: "from-yellow-500 to-orange-500",
-      category: "Tools",
-    },
-    {
-      name: "Linux",
-      icon: "🐧",
-      color: "from-yellow-400 to-amber-500",
-      category: "Tools",
-    },
-    {
-      name: "Nginx",
-      icon: "🟢",
-      color: "from-green-500 to-green-700",
-      category: "Tools",
-    },
-    {
-      name: "CI/CD",
-      icon: "🔄",
-      color: "from-indigo-500 to-purple-600",
-      category: "Tools",
-    },
-  ];
+  const countOf = (c: "All" | Category) =>
+    c === "All"
+      ? techStack.length
+      : techStack.filter((t) => t.category === c).length;
+
+  const visibleTech =
+    active === "All"
+      ? techStack
+      : techStack.filter((t) => t.category === active);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    el.style.setProperty("--mx", `${x}px`);
+    el.style.setProperty("--my", `${y}px`);
+    el.style.setProperty("--px", `${(x / r.width - 0.5) * 2}`);
+    el.style.setProperty(
+      "--py",
+      `${Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / 600))}`,
+    );
+  };
+
+  const handleCardMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--cx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--cy", `${e.clientY - r.top}px`);
+  };
+
+  const parallax = (depth: number) => ({
+    transform: `translate(calc(var(--px, 0) * ${depth}px), calc(var(--py, 0) * ${depth}px))`,
+    transition: "transform 0.4s ease-out",
+  });
+
+  const reveal = (delay: string, from: string) =>
+    `transition-all duration-1000 ease-out ${delay} ${
+      isVisible
+        ? "opacity-100 translate-x-0 translate-y-0"
+        : `opacity-0 ${from}`
+    }`;
 
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen py-10 px-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+      onMouseMove={handleMouseMove}
+      className="min-h-screen py-10 px-6 md:px-10 bg-stone-950 relative overflow-hidden"
     >
-      {/* Background Elements */}
+      {/* Dot grid */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-50 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(168,162,158,0.16) 1px, transparent 1px)",
+          backgroundSize: "26px 26px",
+          maskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%)",
+        }}
+      />
+
+      {/* Cursor spotlight */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(380px circle at var(--mx, 50%) var(--my, 20%), rgba(251,191,36,0.06), transparent 70%)",
+        }}
+      />
+
+      {/* Pulsing glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-10 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -right-24 w-96 h-96 bg-amber-500/[0.06] rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-2/3 -left-24 w-80 h-80 bg-orange-500/[0.05] rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-amber-400/[0.03] rounded-full blur-3xl animate-pulse delay-2000" />
+      </div>
+
+      {/* Floating icons (parallax wrapper + float inner) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10" style={parallax(18)}>
+          <Code2 className="w-6 h-6 text-amber-400/30 animate-float" />
+        </div>
+        <div className="absolute top-[22%] right-16" style={parallax(-26)}>
+          <Sparkles className="w-5 h-5 text-stone-400/30 animate-float delay-1000" />
+        </div>
+        <div className="absolute top-[48%] left-[5%]" style={parallax(30)}>
+          <Rocket className="w-7 h-7 text-amber-300/25 animate-float delay-2000" />
+        </div>
+        <div className="absolute top-[62%] right-[6%]" style={parallax(-20)}>
+          <Terminal className="w-6 h-6 text-stone-400/25 animate-float" />
+        </div>
+        <div className="absolute bottom-24 left-1/3" style={parallax(24)}>
+          <Layers className="w-6 h-6 text-amber-400/25 animate-float delay-1000" />
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div
-          className={`text-center mb-10 transition-all duration-1000 ${
+          className={`text-center mb-14 transition-all duration-1000 ${
             isVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-10"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-amber-400 mb-3">
+            01 &mdash; About
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-stone-100 mb-4">
             About Me
           </h2>
           <div
-            className={`w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full transition-all duration-1000 delay-200 ${
+            className={`w-20 h-[3px] bg-amber-400 mx-auto rounded-full origin-center transition-transform duration-1000 delay-200 ${
               isVisible ? "scale-x-100" : "scale-x-0"
             }`}
           />
         </div>
 
-        {/* Main Content - Profile & Description */}
+        {/* Profile & Description */}
         <div className="mb-20">
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
             {/* Profile Image */}
-            <div
-              className={`transition-all duration-1000 delay-300 ${
-                isVisible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-10"
-              }`}
-            >
+            <div className={reveal("delay-300", "-translate-x-10")}>
               <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl" />
+                <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-amber-400/40" />
+                <span className="absolute -top-3 -left-3 h-5 w-5 border-t-2 border-l-2 border-amber-400" />
+                <span className="absolute -bottom-3 -right-3 h-5 w-5 border-b-2 border-r-2 border-amber-400" />
 
-                <div className="relative grayscale hover:grayscale-0 transition duration-500">
+                <div className="relative rounded-2xl overflow-hidden grayscale hover:grayscale-0 transition duration-500">
                   <TiltedCard
                     imageSrc="/profile.webp"
                     containerHeight="320px"
@@ -393,29 +367,25 @@ export default function About() {
             </div>
 
             {/* Description */}
-            <div
-              className={`flex-1 transition-all duration-1000 delay-400 ${
-                isVisible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 translate-x-10"
-              }`}
-            >
-              <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 text-justify">
+            <div className={`flex-1 ${reveal("delay-400", "translate-x-10")}`}>
+              <div className="relative bg-stone-900/50 rounded-2xl p-8 border border-stone-800 text-justify">
+                <span className="absolute left-0 top-8 bottom-8 w-[3px] rounded-full bg-amber-400" />
+
                 <ScrambledText
-                  className="text-slate-300 text-base md:text-lg leading-relaxed"
+                  className="text-stone-400 text-base md:text-lg leading-relaxed"
                   radius={100}
                   duration={1.2}
                   speed={0.5}
                   scrambleChars=".:"
                 >
-                  I'm a{" "}
-                  <span className="font-bold  text-blue-400 ">
+                  I&apos;m a{" "}
+                  <span className="font-bold text-amber-400">
                     Software Engineer | Full Stack Developer
-                  </span>
+                  </span>{" "}
                   based in Indonesia, focused on building scalable and impactful
                   digital solutions. I specialize in developing web applications
                   using modern technologies such as{" "}
-                  <span className="font-semibold text-blue-400">
+                  <span className="font-semibold text-stone-100">
                     React, Next.js, TypeScript, Node.js, and Laravel
                   </span>
                   .
@@ -429,20 +399,37 @@ export default function About() {
                   <br />
                   <br />
                   Beyond technical skills, I value{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-amber-400 font-semibold">
                     proactive communication
                   </span>
                   ,{" "}
-                  <span className="text-pink-400 font-semibold">
+                  <span className="text-amber-400 font-semibold">
                     critical thinking
                   </span>
                   , and{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-amber-400 font-semibold">
                     effective time management
                   </span>
                   . I enjoy collaborating in team environments and continuously
                   strive to deliver solutions that create real-world value.
                 </ScrambledText>
+              </div>
+
+              {/* Quick facts */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {[
+                  { Icon: MapPin, text: "Kudus, Central Java" },
+                  { Icon: Code2, text: "Software Engineer" },
+                  { Icon: Layers, text: "Full Stack" },
+                ].map(({ Icon, text }) => (
+                  <span
+                    key={text}
+                    className="inline-flex items-center gap-2 rounded-full border border-stone-800 bg-stone-900/60 px-3 py-1.5 text-xs font-medium text-stone-400 transition-colors hover:border-amber-400/50 hover:text-amber-400"
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    {text}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -451,84 +438,127 @@ export default function About() {
         <Divider />
 
         {/* Tech Stack Section */}
-        <div
-          className={`mb-20 transition-all duration-1000 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-3 inline-flex items-center gap-3 flex-wrap justify-center">
-              <Sparkles className="w-8 h-8 text-purple-400" />
-              Tech Stack & Tools
-              <Sparkles className="w-8 h-8 text-blue-400" />
+        <div className={`mb-20 ${reveal("delay-500", "translate-y-10")}`}>
+          <div className="text-center mb-10">
+            <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-stone-100 mb-3 inline-flex items-center gap-3 flex-wrap justify-center">
+              <Sparkles className="w-7 h-7 text-amber-400" />
+              Tech Stack &amp; Tools
+              <Sparkles className="w-7 h-7 text-amber-400" />
             </h3>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-stone-500 text-lg max-w-2xl mx-auto">
               Technologies and tools I use to build amazing digital experiences
             </p>
           </div>
 
-          {/* Single Column Tech Stack Grid */}
+          {/* Filter tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {categories.map((c) => {
+              const isActive = active === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => setActive(c)}
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? "border-amber-400 bg-amber-400 text-stone-950 -translate-y-0.5"
+                      : "border-stone-800 bg-stone-900/60 text-stone-400 hover:border-stone-600 hover:text-stone-100"
+                  }`}
+                >
+                  {c}
+                  <span
+                    className={`font-mono text-[11px] tabular-nums ${
+                      isActive ? "text-stone-800" : "text-stone-600"
+                    }`}
+                  >
+                    {countOf(c)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            {techStack.map((tech, index) => (
+            {visibleTech.map((tech, index) => (
               <div
-                key={index}
-                className="group relative"
-                style={{
-                  animationDelay: `${index * 30}ms`,
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? "translateY(0)" : "translateY(20px)",
-                  transition: `all 0.5s ease-out ${index * 30}ms`,
-                }}
+                key={`${active}-${tech.name}`}
+                onMouseMove={handleCardMove}
+                className="about-rise group relative overflow-hidden rounded-xl border border-stone-800 bg-stone-900/50 p-4 min-h-[116px] flex flex-col items-center justify-center gap-2.5 transition-all duration-300 hover:-translate-y-1.5 hover:border-amber-400/40 hover:shadow-xl hover:shadow-black/40"
+                style={{ animationDelay: `${index * 25}ms` }}
               >
-                {/* Glow Effect on Hover */}
+                {/* Cursor spotlight */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-500`}
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "radial-gradient(120px circle at var(--cx, 50%) var(--cy, 50%), rgba(251,191,36,0.14), transparent 70%)",
+                  }}
                 />
 
-                {/* Card */}
-                <div className="relative bg-slate-800/40 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50 hover:border-slate-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group h-full flex flex-col items-center justify-center gap-3 min-h-[110px]">
-                  <div
-                    className={`text-3xl font-bold bg-gradient-to-br ${tech.color} bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    {tech.icon}
-                  </div>
-                  <div className="text-center">
-                    <span className="text-slate-300 text-xs font-medium block">
-                      {tech.name}
-                    </span>
-                  </div>
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-lg border border-stone-700 bg-stone-950 text-stone-300 transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:border-amber-400/60 group-hover:text-amber-400">
+                  <TechLogo tech={tech} />
+                </div>
 
-                  {/* Tooltip on hover */}
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl z-10">
+                <div className="relative text-center">
+                  <span className="block text-xs font-medium text-stone-300">
+                    {tech.name}
+                  </span>
+                  <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-wider text-stone-600 transition-colors group-hover:text-amber-400/70">
                     {tech.category}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 border-b border-r border-slate-700 rotate-45" />
-                  </div>
+                  </span>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Tech Stack Summary */}
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm rounded-xl p-4 border border-blue-500/20 text-center">
-              <div className="text-2xl font-bold text-blue-400 mb-1">12+</div>
-              <div className="text-slate-400 text-sm">Frontend Tech</div>
-            </div>
-            <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20 text-center">
-              <div className="text-2xl font-bold text-purple-400 mb-1">8+</div>
-              <div className="text-slate-400 text-sm">Backend Tech</div>
-            </div>
-            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-sm rounded-xl p-4 border border-green-500/20 text-center">
-              <div className="text-2xl font-bold text-green-400 mb-1">7+</div>
-              <div className="text-slate-400 text-sm">Database Tools</div>
-            </div>
-            <div className="bg-gradient-to-br from-orange-500/10 to-amber-500/10 backdrop-blur-sm rounded-xl p-4 border border-orange-500/20 text-center">
-              <div className="text-2xl font-bold text-orange-400 mb-1">20+</div>
-              <div className="text-slate-400 text-sm">Dev Tools</div>
-            </div>
-          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes about-rise {
+          from {
+            opacity: 0;
+            transform: translateY(16px) scale(0.97);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        .about-rise {
+          animation: about-rise 0.5s ease-out both;
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .delay-1000 {
+          animation-delay: 1s;
+        }
+
+        .delay-2000 {
+          animation-delay: 2s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .about-rise,
+          .animate-float {
+            animation: none;
+          }
+        }
+      `}</style>
     </section>
   );
 }

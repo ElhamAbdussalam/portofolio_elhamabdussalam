@@ -15,13 +15,19 @@ import {
   Briefcase,
   MessageSquare,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import TextType from "./ui/TextType";
 import { usePathname, useRouter } from "next/navigation";
 
+// Ubah ke false kalau tidak ingin menampilkan badge status
+const SHOW_AVAILABILITY = true;
+const AVAILABILITY_LABEL = "Open to work";
+
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [time, setTime] = useState("");
+  const asideRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -73,21 +79,87 @@ export default function Sidebar() {
     setIsOpen(false);
   };
 
+  // Jam live (WIB)
+  useEffect(() => {
+    const tick = () =>
+      setTime(
+        new Date().toLocaleTimeString("id-ID", {
+          timeZone: "Asia/Jakarta",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        }),
+      );
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Shortcut keyboard: tekan 1-7 untuk pindah halaman
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (
+        el &&
+        (el.tagName === "INPUT" ||
+          el.tagName === "TEXTAREA" ||
+          el.isContentEditable)
+      )
+        return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const n = parseInt(e.key, 10);
+      if (n >= 1 && n <= menuItems.length) {
+        router.push(menuItems[n - 1].path);
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
+
+  // Spotlight yang mengikuti kursor
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = asideRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <>
+      <style>{`
+        @keyframes sb-shine {
+          0%   { transform: translateX(-120%) skewX(-20deg); }
+          60%, 100% { transform: translateX(260%) skewX(-20deg); }
+        }
+        @keyframes sb-rise {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .sb-shine { animation: sb-shine 4.5s ease-in-out infinite; }
+        .sb-rise  { animation: sb-rise 0.6s ease-out both; }
+        @media (prefers-reduced-motion: reduce) {
+          .sb-shine, .sb-rise { animation: none; }
+        }
+      `}</style>
+
       {/* Mobile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-slate-800 border border-slate-700 shadow-lg hover:border-blue-500/50 transition-all"
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-stone-900 border border-stone-800 text-stone-200 shadow-lg hover:border-amber-400/60 active:scale-95 transition-all"
       >
         <div className="relative w-6 h-6">
           <Menu
-            className={`absolute w-6 h-6 text-white transition ${
+            className={`absolute w-6 h-6 transition duration-300 ${
               isOpen ? "opacity-0 rotate-90" : "opacity-100"
             }`}
           />
           <X
-            className={`absolute w-6 h-6 text-white transition ${
+            className={`absolute w-6 h-6 transition duration-300 ${
               isOpen ? "opacity-100" : "opacity-0 -rotate-90"
             }`}
           />
@@ -97,59 +169,57 @@ export default function Sidebar() {
       {/* Overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40 transition ${
+        className={`lg:hidden fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-6 flex flex-col
-        bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900
-        border-r border-slate-700/50
-        transform transition-all duration-300
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        shadow-2xl lg:shadow-none`}
+        ref={asideRef}
+        onMouseMove={handleMouseMove}
+        className={`fixed lg:sticky top-0 left-0 h-screen w-80 z-40 p-8 flex flex-col overflow-hidden
+        bg-stone-950 border-r border-stone-800
+        transform transition-transform duration-300
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        {/* Profile */}
-        <div className="text-center">
-          {/* Avatar */}
-          <div className="relative w-36 h-36 mx-auto mb-4 group animate-float">
-            {/* Glow Ring */}
-            <div
-              className="absolute inset-0 rounded-full
-    bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500
-    blur-md opacity-60 animate-slow-spin group-hover:opacity-90 transition"
-            />
+        {/* Cursor spotlight */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 lg:opacity-100 transition-opacity"
+          style={{
+            background:
+              "radial-gradient(260px circle at var(--mx, 50%) var(--my, 20%), rgba(251,191,36,0.07), transparent 70%)",
+          }}
+        />
 
-            {/* Avatar Wrapper */}
-            <div
-              className="relative w-full h-full rounded-full p-[6px]
-    bg-gradient-to-br from-blue-500 to-purple-600
-    transition-transform duration-500
-    group-hover:scale-105 group-hover:rotate-1"
-            >
-              <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 ring-2 ring-slate-900">
-                <Image
-                  src="/profile.webp"
-                  alt="Avatar"
-                  width={112}
-                  height={112}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                  priority
-                />
-              </div>
+        {/* Profile */}
+        <div className="relative text-center">
+          {/* Avatar */}
+          <div className="relative w-36 h-36 mx-auto mb-5 group animate-float">
+            {/* Dashed orbit ring */}
+            <div className="absolute -inset-2 rounded-full border border-dashed border-amber-400/40 animate-slow-spin group-hover:border-amber-400/80 transition-colors" />
+
+            {/* Photo */}
+            <div className="relative w-full h-full rounded-full overflow-hidden bg-stone-900 ring-1 ring-stone-700 transition-all duration-500 group-hover:ring-amber-400 group-hover:scale-105 group-hover:rotate-1">
+              <Image
+                src="/profile.webp"
+                alt="Avatar"
+                width={144}
+                height={144}
+                className="w-full h-full object-cover grayscale transition duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                priority
+              />
             </div>
 
             {/* Status Dot */}
-            <div
-              className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5
-    bg-emerald-500 rounded-full border-2 border-slate-900
-    animate-pulse"
-            />
+            <span className="absolute bottom-2 right-2 flex w-3.5 h-3.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+              <span className="relative inline-flex w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-stone-950" />
+            </span>
           </div>
 
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+          <div className="text-xl font-semibold tracking-tight text-stone-100 mb-3">
             <TextType
               text={["M Elham Abdussalam"]}
               typingSpeed={150}
@@ -160,6 +230,24 @@ export default function Sidebar() {
             />
           </div>
 
+          {/* Availability badge */}
+          {SHOW_AVAILABILITY && (
+            <div className="relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-stone-800 bg-stone-900/70 px-3 py-1 text-[11px] font-medium text-stone-300 sb-rise">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              </span>
+              {AVAILABILITY_LABEL}
+              {/* Shine sweep */}
+              <span
+                aria-hidden
+                className="sb-shine pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent"
+              />
+            </div>
+          )}
+
+          <div className="h-px w-10 mx-auto my-5 bg-amber-400/70" />
+
           {/* Social */}
           <div className="flex justify-center gap-2">
             {socialLinks.map((social, index) => {
@@ -168,38 +256,30 @@ export default function Sidebar() {
               return (
                 <div
                   key={social.label}
-                  className="relative flex flex-col items-center group"
+                  className="relative flex flex-col items-center group animate-slideIn"
                   style={{ animationDelay: `${index * 80}ms` }}
                 >
-                  {/* Icon Button */}
                   <a
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="
-            w-10 h-10 flex items-center justify-center rounded-xl
-            bg-slate-800/50 border border-slate-700/50
-            text-slate-400
-            transition-all duration-300 ease-out
-            group-hover:scale-110 group-hover:-rotate-6
-            hover:bg-gradient-to-br hover:from-blue-500 hover:to-purple-600
-            hover:text-white hover:border-transparent
-            shadow-sm hover:shadow-lg hover:shadow-blue-500/20
-          "
+                    aria-label={social.label}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl
+                      bg-stone-900/60 border border-stone-800 text-stone-400
+                      transition-all duration-300 ease-out
+                      group-hover:scale-110 group-hover:-rotate-6 group-hover:-translate-y-0.5
+                      hover:text-stone-950 hover:bg-amber-400 hover:border-amber-400
+                      hover:shadow-lg hover:shadow-amber-400/20"
                   >
                     <Icon className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" />
                   </a>
 
-                  {/* Label (muncul saat hover) */}
+                  {/* Tooltip */}
                   <span
-                    className="
-            mt-1 text-[11px] font-medium
-            text-slate-500
-            opacity-0 translate-y-1
-            group-hover:opacity-100 group-hover:translate-y-0
-            transition-all duration-200
-            pointer-events-none
-          "
+                    className="pointer-events-none absolute top-full mt-1.5 whitespace-nowrap
+                      rounded-md bg-stone-800 px-2 py-0.5 text-[11px] font-medium text-stone-200
+                      opacity-0 -translate-y-1 transition-all duration-200
+                      group-hover:opacity-100 group-hover:translate-y-0"
                   >
                     {social.label}
                   </span>
@@ -210,8 +290,8 @@ export default function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 mt-3 mb-3 ">
-          <ul className="space-y-1">
+        <nav className="relative flex-1 mt-8 mb-4">
+          <ul className="space-y-0.5">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = pathname === item.path;
@@ -223,44 +303,51 @@ export default function Sidebar() {
                   style={{ animationDelay: `${index * 60}ms` }}
                 >
                   <button
-                    onClick={() => {
-                      handleNavigate(item.path);
-                    }}
+                    onClick={() => handleNavigate(item.path)}
                     className={`
-              group relative w-full flex items-center gap-4 px-5 h-12 rounded-xl
-              text-sm font-medium transition-all duration-300 ease-out cursor-pointer
-              ${
-                isActive
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-[1.02]"
-                  : "text-slate-300 hover:bg-slate-800/50 hover:translate-x-1"
-              }
-            `}
+                      group relative w-full flex items-center gap-4 pl-5 pr-4 h-11 rounded-lg
+                      text-sm font-medium cursor-pointer transition-all duration-300 ease-out
+                      ${
+                        isActive
+                          ? "bg-stone-900 text-amber-400"
+                          : "text-stone-400 hover:text-stone-100 hover:bg-stone-900/60 hover:translate-x-1"
+                      }
+                    `}
                   >
-                    {/* Hover background layer */}
-                    {!isActive && (
-                      <span
-                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0
-                group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10
-                transition-all duration-300"
-                      />
-                    )}
-
-                    {/* Icon */}
-                    <Icon
-                      className={`
-                relative z-10 w-5 h-5 shrink-0 transition-transform duration-300
-                ${isActive ? "animate-bounce-slow" : "group-hover:rotate-6"}
-              `}
+                    {/* Left accent bar: tumbuh saat aktif, setengah saat hover */}
+                    <span
+                      className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-amber-400 origin-center transition-transform duration-300 ${
+                        isActive
+                          ? "scale-y-100"
+                          : "scale-y-0 group-hover:scale-y-50"
+                      }`}
                     />
 
-                    {/* Label */}
-                    <span className="relative z-10 flex-1 text-left">
-                      {item.label}
-                    </span>
+                    <Icon
+                      className={`w-[18px] h-[18px] shrink-0 transition-transform duration-300 ${
+                        isActive
+                          ? "animate-bounce-slow"
+                          : "group-hover:rotate-6 group-hover:scale-110"
+                      }`}
+                    />
 
-                    {/* Active indicator */}
-                    {isActive && (
-                      <span className="relative z-10 w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span className="flex-1 text-left">{item.label}</span>
+
+                    {/* Active dot / keyboard hint */}
+                    {isActive ? (
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60 animate-ping" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+                      </span>
+                    ) : (
+                      <kbd
+                        className="hidden lg:inline-flex h-5 min-w-5 items-center justify-center rounded
+                          border border-stone-700 bg-stone-900 px-1 font-mono text-[10px] text-stone-500
+                          opacity-0 -translate-x-1 transition-all duration-200
+                          group-hover:opacity-100 group-hover:translate-x-0"
+                      >
+                        {index + 1}
+                      </kbd>
                     )}
                   </button>
                 </li>
@@ -270,8 +357,17 @@ export default function Sidebar() {
         </nav>
 
         {/* Footer */}
-        <div className="text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} M Elham Abdussalam
+        <div className="relative space-y-1 text-center">
+          <div className="font-mono text-xs tabular-nums text-stone-400 min-h-4">
+            {time && (
+              <>
+                {time} <span className="text-amber-400/80">WIB</span>
+              </>
+            )}
+          </div>
+          <div className="text-xs text-stone-600">
+            &copy; {new Date().getFullYear()} M Elham Abdussalam
+          </div>
         </div>
       </aside>
     </>

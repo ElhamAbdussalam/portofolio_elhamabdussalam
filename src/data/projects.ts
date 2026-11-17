@@ -382,54 +382,110 @@ export const projects: Project[] = [
     role: "Full-Stack Developer",
   },
   {
-  id: 10,
-  title: "Company Hub – HRIS & Company Management System 🏢",
-  description:
-    "A production-ready HRIS & Company Management platform built to manage employees, attendance, leave requests, reimbursements, assets, and tasks with secure role-based access and scalable architecture.",
+    id: 10,
+    title: "Company Hub – HRIS & Company Management System 🏢",
+    description:
+      "A production-ready HRIS & Company Management platform built to manage employees, attendance, leave requests, reimbursements, assets, and tasks with secure role-based access and scalable architecture.",
 
-  longDescription:
-    "Company Hub is a full-stack HRIS & Company Management System designed to help companies streamline internal operations through a centralized and scalable platform. The system includes employee management, attendance tracking with clock-in/out, leave approval workflows, reimbursement management with receipt uploads, asset inventory tracking, and task management with progress monitoring. Built using modern backend technologies and Clean Architecture principles, this project focuses on modular scalability, secure authentication, reusable middleware, and optimized database performance. It simulates a real-world enterprise management platform with production-grade security, role-based access control, and maintainable service-layer architecture.",
+    longDescription:
+      "Company Hub is a full-stack HRIS & Company Management System designed to help companies streamline internal operations through a centralized and scalable platform. The system includes employee management, attendance tracking with clock-in/out, leave approval workflows, reimbursement management with receipt uploads, asset inventory tracking, and task management with progress monitoring. Built using modern backend technologies and Clean Architecture principles, this project focuses on modular scalability, secure authentication, reusable middleware, and optimized database performance. It simulates a real-world enterprise management platform with production-grade security, role-based access control, and maintainable service-layer architecture.",
 
-  image: "/projects-10.webp",
+    image: "/projects-10.webp",
 
-  category: "Full-Stack Developer",
+    category: "Full-Stack Developer",
 
-  technologies: [
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "Mongoose",
-    "JWT Authentication",
-    "bcryptjs",
-    "Joi Validation",
-    "Multer",
-    "RESTful API",
-    "Clean Architecture",
-    "Service Layer Pattern",
-    "Role-Based Access Control",
-    "Rate Limiting",
-    "Helmet Security",
-    "Postman",
-    "Git & GitHub",
-  ],
+    technologies: [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Mongoose",
+      "JWT Authentication",
+      "bcryptjs",
+      "Joi Validation",
+      "Multer",
+      "RESTful API",
+      "Clean Architecture",
+      "Service Layer Pattern",
+      "Role-Based Access Control",
+      "Rate Limiting",
+      "Helmet Security",
+      "Postman",
+      "Git & GitHub",
+    ],
 
-  status: "Completed",
+    status: "Completed",
 
-  year: "2026",
+    year: "2026",
 
-  features: [
-    "JWT dual-token authentication with refresh token rotation",
-    "Role-based access control (Admin, HR, Manager, Employee)",
-    "Employee management with scalable modular architecture",
-    "Attendance tracking with clock-in/out and lateness detection",
-    "Leave management with approval workflow and status tracking",
-    "Reimbursement management with receipt upload support",
-    "Asset inventory & assignment tracking system",
-    "Task management with priorities, progress, and workflow statuses",
-    "50+ RESTful API endpoints with reusable middleware architecture",
-    "Production-grade security, validation, and optimized database queries",
-  ],
+    features: [
+      "JWT dual-token authentication with refresh token rotation",
+      "Role-based access control (Admin, HR, Manager, Employee)",
+      "Employee management with scalable modular architecture",
+      "Attendance tracking with clock-in/out and lateness detection",
+      "Leave management with approval workflow and status tracking",
+      "Reimbursement management with receipt upload support",
+      "Asset inventory & assignment tracking system",
+      "Task management with priorities, progress, and workflow statuses",
+      "50+ RESTful API endpoints with reusable middleware architecture",
+      "Production-grade security, validation, and optimized database queries",
+    ],
 
-  role: "Full-Stack Developer",
-}
+    role: "Full-Stack Developer",
+  },
+
+  {
+    id: 11,
+    title: "EduSpace – School Management System 🎓",
+
+    description:
+      "A full-stack School Management System designed to streamline school administration, student management, teacher management, attendance tracking, academic scheduling, grading, and reporting through a centralized platform with role-based access control.",
+
+    longDescription:
+      "EduSpace is a full-stack School Management System designed to simplify and centralize school operations through an integrated digital platform. The system provides comprehensive school administration features, including student and teacher management, class organization, academic scheduling, attendance tracking, grade management, announcements, and academic year administration. It features an administrative dashboard that provides real-time operational insights, attendance summaries, school statistics, and actionable notifications to help administrators monitor daily school activities. Built with modern web technologies and a modular architecture, EduSpace focuses on secure authentication, role-based access control, data consistency, maintainability, and scalable school management workflows.",
+
+    image: "/projects-11.webp",
+
+    category: "Full-Stack Developer",
+
+    technologies: [
+      "Next.js",
+      "React.js",
+      "TypeScript",
+      "NestJS",
+      "Node.js",
+      "PostgreSQL",
+      "Prisma ORM",
+      "Redis",
+      "JWT Authentication",
+      "Role-Based Access Control",
+      "RESTful API",
+      "Class Validator",
+      "Swagger / OpenAPI",
+      "Tailwind CSS",
+      "Git & GitHub",
+    ],
+
+    status: "Completed",
+
+    year: "2026",
+
+    features: [
+      "Centralized administrative dashboard with school statistics and operational insights",
+      "School management with centralized school information and administration",
+      "Student management with student records and class assignments",
+      "Teacher management and teacher data administration",
+      "Class management with homeroom teacher assignments",
+      "Academic scheduling and timetable management",
+      "Attendance tracking with daily attendance summaries and monitoring",
+      "Grade management and academic performance tracking",
+      "Announcement management for school-wide information distribution",
+      "Subject management and academic year administration",
+      "Attendance monitoring with actionable dashboard notifications",
+      "Audit logging for tracking administrative activities",
+      "Role-based access control for secure access to system modules",
+      "Modular backend architecture with structured API development",
+    ],
+
+    role: "Full-Stack Developer",
+  },
 ];
